@@ -1,14 +1,9 @@
-use crate::no_std_formatter::show;
-
 macro_rules! debug_eprintln {
     ($($arg: tt)*) => {
-        #[cfg(debug_assertions)]
-        #[cfg(feature = "debug")]
-        extern crate std;
 
         #[cfg(debug_assertions)]
         #[cfg(feature = "debug")]
-        eprintln!($($arg)*)
+        ::std::eprintln!($($arg)*)
     };
 }
 
