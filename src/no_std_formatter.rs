@@ -40,7 +40,7 @@ impl<'a> WriteTo<'a> {
         WriteTo { buf, len: 0 }
     }
 
-    pub unsafe fn as_str(self) -> Option<&'a str> {
+    pub unsafe fn into_option_str(self) -> Option<&'a str> {
         if self.len <= self.buf.len() {
             Some(unsafe { from_utf8_unchecked(&self.buf[..self.len]) })
         } else {
@@ -74,5 +74,5 @@ pub fn show<'a>(buf: &'a mut [u8], arg: fmt::Arguments) -> Result<&'a str, fmt::
     let mut w = WriteTo::new(buf);
     fmt::write(&mut w, arg)?;
     // SAFETY: In this crate, only only digits and ASCII characters are used for formatting.
-    unsafe { w.as_str() }.ok_or(fmt::Error)
+    unsafe { w.into_option_str() }.ok_or(fmt::Error)
 }

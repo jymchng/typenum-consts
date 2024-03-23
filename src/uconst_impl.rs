@@ -108,21 +108,20 @@ pub(crate) fn uconst_impl(litint: LitInt) -> Result<TokenStream2> {
                 let _ = litint
                     .base10_digits()
                     .chars()
-                    .filter(|c| !c.is_digit(10))
+                    .filter(|c| !c.is_ascii_digit())
                     .enumerate()
                     .map(|(idx, c)| {
                         let wrong_chars_idx_mut_ref = wrong_chars.get_mut(idx).ok_or_else(
                             || Error::new(litint.span(),
-                                "number of wrong characters in the literal constant passed into `uconst` is larger than 512 bytes in size", 
+                                "number of wrong characters in the literal constant passed into `uconst` is larger than 512 bytes in size",
                             )
                         )?;
                         *wrong_chars_idx_mut_ref = c as u8;
                         Ok::<(), Error>(())
                     });
-                let wrong_chars_str = core::str::from_utf8(&wrong_chars).or_else(|_| {
-                    Err(Error::new(litint.span(),
-                    "there are some characters passed into the `uconst` macro are not valid utf-8",
-                ))
+                let wrong_chars_str = core::str::from_utf8(&wrong_chars).map_err(|_| {
+                    Error::new(litint.span(),
+                 "there are some characters passed into the `uconst` macro are not valid utf-8",)
                 })?;
                 let mut buf = [0u8; 512];
                 Err(Error::new_spanned(

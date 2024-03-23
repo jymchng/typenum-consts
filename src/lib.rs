@@ -38,7 +38,7 @@ pub fn tnconst(items: TokenStream) -> TokenStream {
 pub fn pconst(items: TokenStream) -> TokenStream {
     let lit_integer: LitInteger = parse_macro_input!(items as LitInteger);
     let result = match lit_integer {
-        LitInteger::UnsignedInteger { lit_integer } => {
+        LitInteger::Unsigned { lit_integer } => {
             let mut error_buf = [0u8; 512];
             Err(
                 Error::new(
@@ -50,8 +50,8 @@ pub fn pconst(items: TokenStream) -> TokenStream {
                     )
                 ))
         }
-        LitInteger::PositiveInteger { lit_integer } => tnconst_impl::pconst_impl(lit_integer),
-        LitInteger::NegativeInteger { lit_integer } => {
+        LitInteger::Positive { lit_integer } => tnconst_impl::pconst_impl(lit_integer),
+        LitInteger::Negative { lit_integer } => {
             let mut error_buf = [0u8; 512];
             Err(
                 Error::new(
@@ -71,7 +71,7 @@ pub fn pconst(items: TokenStream) -> TokenStream {
 pub fn nconst(items: TokenStream) -> TokenStream {
     let lit_integer: LitInteger = parse_macro_input!(items as LitInteger);
     let result = match lit_integer {
-        LitInteger::UnsignedInteger { lit_integer } => {
+        LitInteger::Unsigned { lit_integer } => {
             let mut error_buf = [0u8; 512];
             Err(
                 Error::new(
@@ -82,8 +82,8 @@ pub fn nconst(items: TokenStream) -> TokenStream {
                         "unable to allocate enough memory for error message in `nconst`"
                     )
                 ))
-        },
-        LitInteger::PositiveInteger { lit_integer } => {
+        }
+        LitInteger::Positive { lit_integer } => {
             let mut error_buf = [0u8; 512];
             Err(
                 Error::new(
@@ -94,8 +94,8 @@ pub fn nconst(items: TokenStream) -> TokenStream {
                         "unable to allocate enough memory for error message in `nconst`"
                     )
                 ))
-        },
-        LitInteger::NegativeInteger { lit_integer } => tnconst_impl::nconst_impl(lit_integer),
+        }
+        LitInteger::Negative { lit_integer } => tnconst_impl::nconst_impl(lit_integer),
     };
     result.unwrap_or_else(syn::Error::into_compile_error).into()
 }
