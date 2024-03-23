@@ -1,6 +1,6 @@
 # (WIP) typenum-consts
 
-Procedural macro that takes a literal integer and converts it to a `typenum::Unsigned` type-level unsigned integer.
+Procedural macro that takes a literal integer and converts it to a `typenum::Unsigned` / `typenum::ToInt` type-level positive/negative/unsigned integer.
 
 ## Examples
 
