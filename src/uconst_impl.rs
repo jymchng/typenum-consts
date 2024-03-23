@@ -1,3 +1,4 @@
+use crate::macros::{debug_eprintln, no_std_format};
 use proc_macro2::{Span, TokenStream as TokenStream2};
 use quote::{format_ident, quote};
 use syn::{Error, LitInt, Result};
@@ -13,18 +14,10 @@ fn uints() -> impl Iterator<Item = u64> {
 }
 
 fn digits_to_uint(digits: &str) -> Result<proc_macro2::TokenStream> {
-    let last_digit_ident = {
-        let last_digit = digits.chars().last().ok_or_else(
-            || {
-                Error::new(Span::call_site(), format!("unable to get the last digit of the literal integer passed into `uconst` = {:?}", digits))
-            }
-        )?;
-        format_ident!("U{}", last_digit)
-    };
-    let mut token_stream = quote!(::typenum::consts::#last_digit_ident);
+    let mut token_stream = quote!(::typenum::consts::U0);
 
     for (expo, d) in digits.chars().rev().enumerate() {
-        eprintln!("`expo` = {expo}; `d` = {d}");
+        debug_eprintln!("`expo` = {expo}; `d` = {d}");
         let d_uint_ident = format_ident!("U{}", d);
         let expo_uint_ident = format_ident!("U{}", expo);
         token_stream = quote! {
@@ -39,50 +32,50 @@ fn digits_to_uint(digits: &str) -> Result<proc_macro2::TokenStream> {
                 #token_stream
             >
         };
-        eprintln!("`token_stream` = {token_stream}");
+        debug_eprintln!("`token_stream` = {token_stream}");
     }
 
     Ok(token_stream)
 }
 
-fn can_represent_as_u32_or_u64(digits: &str) -> bool {
-    // Check if the string is empty
+fn can_represent_as_u32_or_u64(digits: &str) -> Result<bool> {
     if digits.is_empty() {
-        return false;
+        return Ok(false);
     }
 
     for ch in digits.chars() {
-        // Check if the character is not a digit
         if !ch.is_digit(10) {
-            return false;
+            return Ok(false);
         }
     }
 
     if digits.len() > 10 && digits[..digits.len() - 10].chars().any(|c| c != '0') {
-        return false;
+        return Ok(false);
     }
 
     if digits.len() == 10 {
-        return digits > format!("{:?}", U32OrU64::MAX).as_str();
+        let mut buf = [0u8; 512];
+        return Ok(digits > no_std_format!(buf, "{}", usize::MAX).map_err(|err| {
+            let mut buf = [0u8; 512];
+            Error::new(
+                Span::call_site(),
+                "unable to allocate enough buffer for the integer literal passed into `uconst`",
+            )
+        })?);
     }
 
-    true
+    Ok(true)
 }
 
-#[cfg(target_pointer_width = "32")]
-type U32OrU64 = u32;
-
-#[cfg(target_pointer_width = "64")]
-type U32OrU64 = u64;
-
 pub(crate) fn uconst_impl(litint: LitInt) -> Result<TokenStream2> {
-    eprintln!("`litint` = {litint}");
+    debug_eprintln!("`litint` = {litint}");
 
-    if !can_represent_as_u32_or_u64(litint.base10_digits()) {
-        return Err(Error::new(litint.span(), format!("the integer literal = `{litint:?}` passed into `uconst` is too large to be represented by {} bits", usize::BITS)));
+    if !can_represent_as_u32_or_u64(litint.base10_digits())? {
+        let mut buf = [0_u8; 512];
+        return Err(Error::new(litint.span(), no_std_format!(buf, "the integer literal = `{litint:?}` passed into `uconst` is too large to be represented by {} bits", usize::BITS)));
     }
 
-    let litint_u32_or_u64: U32OrU64 = match litint.base10_parse::<U32OrU64>() {
+    let litint_u32_or_u64: usize = match litint.base10_parse::<usize>() {
         Ok(num) => num,
         Err(err) => {
             return {
@@ -97,18 +90,19 @@ pub(crate) fn uconst_impl(litint: LitInt) -> Result<TokenStream2> {
                     .join(", ");
                 Err(Error::new_spanned(
                     litint.token(),
-                    format!(
+                    format_args!(
                         "the literal passed into `uconst!(...)` cannot be parsed into `u64`; `{litint}` contains these characters which are not digits: {not_digits:?}; source error: {err}"
                     ),
                 ))
             }
         }
     };
-    if uints().any(|uint| uint == litint_u32_or_u64) {
+    if uints().any(|uint| uint as usize == litint_u32_or_u64) {
         let ident = format_ident!("U{litint_u32_or_u64}");
         return Ok(quote!(::typenum::consts::#ident));
     }
-    let ts = digits_to_uint(format!("{}", litint_u32_or_u64).as_str())?;
+    let mut buf = [0u8; 512];
+    let ts = digits_to_uint(no_std_format!(&mut buf, "{}", litint_u32_or_u64).as_str())?;
     Ok(quote!(#ts))
 }
 
