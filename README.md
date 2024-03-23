@@ -8,6 +8,11 @@ Procedural macro that takes a literal integer and converts it to a `typenum::Uns
 use core::marker::PhantomData;
 use typenum_consts::tnconst;
 
+#[cfg(target_pointer_width = "32")]
+type I32OrI64 = i32;
+#[cfg(target_pointer_width = "64")]
+type I32OrI64 = i64;
+
 type ActualPositive84938493Type = tnconst![+84938493];
 
 type ExpectedPositive84938493Type = ::typenum::PInt< // `PInt` implies positive integer at the type level
@@ -31,15 +36,19 @@ type ExpectedPositive84938493Type = ::typenum::PInt< // `PInt` implies positive 
 >;
 
 typenum::assert_type_eq!(ExpectedPositive84938493Type, ActualPositive84938493Type);
-#[cfg(target_pointer_width = "32")]
-type I32OrI64 = i32;
-#[cfg(target_pointer_width = "64")]
-type I32OrI64 = i64;
 assert_eq!(
     <ExpectedPositive84938493Type as typenum::ToInt<I32OrI64>>::INT,
     <ActualPositive84938493Type as typenum::ToInt<I32OrI64>>::INT
 );
+```
+```rust
+use core::marker::PhantomData;
+use typenum_consts::tnconst;
 
+#[cfg(target_pointer_width = "32")]
+type I32OrI64 = i32;
+#[cfg(target_pointer_width = "64")]
+type I32OrI64 = i64;
 type ActualNegative84938493Type = tnconst![-84938493];
 
 type ExpectedNegative84938493Type = ::typenum::NInt< // `NInt` implies Negative integer at the type level
@@ -67,10 +76,19 @@ assert_eq!(
     <ExpectedNegative84938493Type as typenum::ToInt<I32OrI64>>::INT,
     <ActualNegative84938493Type as typenum::ToInt<I32OrI64>>::INT
 );
+```
+```rust
+use core::marker::PhantomData;
+use typenum_consts::tnconst;
+
+#[cfg(target_pointer_width = "32")]
+type I32OrI64 = i32;
+#[cfg(target_pointer_width = "64")]
+type I32OrI64 = i64;
 
 type ActualUnsigned84938493Type = tnconst![84938493]; // No sign at the front means Unsigned
 
-type ExpectedUnsigned84938493Type = ::typenum::Sum< // `NInt` implies Unsigned integer at the type level
+type ExpectedUnsigned84938493Type = ::typenum::Sum< // No `PInt` or `NInt` implies Unsigned integer at the type level
 ::typenum::Prod<::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U7>, ::typenum::consts::U8>, // 10**7 * 8
 ::typenum::Sum<
 ::typenum::Prod<::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U6>, ::typenum::consts::U4>, // 10**6 * 4
