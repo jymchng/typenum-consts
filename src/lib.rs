@@ -2,10 +2,12 @@
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 use crate::macros::debug_eprintln;
-use crate::types::LitInteger;
+use crate::types::{LitInteger, LitIntegerOrExprs};
 use proc_macro::{self, TokenStream};
 use syn::{parse_macro_input, Error, LitInt};
+use tnconst_impl::{tnconst_impl_lit_integer, tnconst_impl_math_exprs};
 
+mod exprs_impl;
 mod macros;
 mod tnconst_impl;
 mod types;
@@ -26,10 +28,17 @@ pub fn uconst(items: TokenStream) -> TokenStream {
 
 #[proc_macro]
 pub fn tnconst(items: TokenStream) -> TokenStream {
-    let lit_integer: LitInteger = parse_macro_input!(items as LitInteger);
-    tnconst_impl::tnconst_impl(lit_integer)
-        .unwrap_or_else(syn::Error::into_compile_error)
-        .into()
+    match syn::parse::<LitIntegerOrExprs>(items) {
+        Ok(litint_exprs) => match litint_exprs {
+            LitIntegerOrExprs::Exprs(math_exprs) => tnconst_impl_math_exprs(math_exprs)
+                .unwrap_or_else(syn::Error::into_compile_error)
+                .into(),
+            LitIntegerOrExprs::LitInteger(lit_integer) => tnconst_impl_lit_integer(lit_integer)
+                .unwrap_or_else(syn::Error::into_compile_error)
+                .into(),
+        },
+        Err(err) => err.into_compile_error().into(),
+    }
 }
 
 #[proc_macro]
