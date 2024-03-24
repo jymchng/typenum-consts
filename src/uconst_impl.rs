@@ -63,7 +63,7 @@ fn can_represent_as_u32_or_u64(digits: &str) -> Result<bool> {
 
     if digits.len() == num_digit {
         debug_eprintln!("`if digits.len() == num_digit`: {digits}");
-        return Ok(digits <= &format!("{}", usize::MAX));
+        return Ok(digits <= format!("{}", usize::MAX).as_str());
     }
 
     Ok(true)

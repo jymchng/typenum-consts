@@ -4,6 +4,7 @@ use syn::{
     LitInt, Result, Token,
 };
 
+#[derive(Debug, Clone)]
 pub enum LitInteger {
     Positive { lit_integer: LitInt },
     Negative { lit_integer: LitInt },
