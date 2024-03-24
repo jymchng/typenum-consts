@@ -1,5 +1,5 @@
-use crate::macros::{debug_eprintln, no_std_format};
-use proc_macro2::{Span, TokenStream as TokenStream2};
+use crate::macros::debug_eprintln;
+use proc_macro2::TokenStream as TokenStream2;
 use quote::{format_ident, quote};
 use syn::{Error, LitInt, Result};
 
@@ -42,10 +42,10 @@ fn digits_to_uint(digits: &str) -> Result<proc_macro2::TokenStream> {
 
 fn can_represent_as_u32_or_u64(digits: &str) -> Result<bool> {
     #[cfg(target_pointer_width = "32")]
-    let num_digit: u32 = 10;
+    let num_digit: usize = 10;
 
     #[cfg(target_pointer_width = "64")]
-    let num_digit: u32 = 20;
+    let num_digit: usize = 20;
 
     if digits.is_empty() {
         return Ok(false);
@@ -57,29 +57,13 @@ fn can_represent_as_u32_or_u64(digits: &str) -> Result<bool> {
         }
     }
 
-    if digits.len() > num_digit as usize
-        && digits[..digits.len() - num_digit as usize]
-            .chars()
-            .any(|c| c != '0')
-    {
+    if digits.len() > num_digit && digits[..digits.len() - num_digit].chars().any(|c| c != '0') {
         return Ok(false);
     }
 
-    if digits.len() == num_digit as usize {
-        debug_eprintln!("`if digits.len() == num_digit as usize`: {digits}");
-        #[cfg(target_pointer_width = "64")]
-        let mut buf = [0u8; 20];
-
-        #[cfg(target_pointer_width = "32")]
-        let mut buf = [0u8; 10];
-
-        return Ok(digits
-            <= no_std_format!(buf, "{}", usize::MAX).map_err(|_| {
-                Error::new(
-                    Span::call_site(),
-                    "unable to allocate enough memory to store decimal representation of `usize::MAX`",
-                )
-            })?);
+    if digits.len() == num_digit {
+        debug_eprintln!("`if digits.len() == num_digit`: {digits}");
+        return Ok(digits <= &format!("{}", usize::MAX));
     }
 
     Ok(true)
@@ -89,61 +73,15 @@ pub(crate) fn uconst_impl(litint: LitInt) -> Result<TokenStream2> {
     debug_eprintln!("`litint` = {litint}");
 
     if !can_represent_as_u32_or_u64(litint.base10_digits())? {
-        let mut buf = [0_u8; 512];
-        let err_msg = no_std_format!(buf, "the integer literal = `{litint:?}` passed into `uconst` is too large to be represented by {} bits", usize::BITS)
-            .map_err(
-                |_| Error::new(
-                    litint.span(),
-                    "unable to allocate enough memory for the error message, 512 bytes is insufficient; error originated from `can_represent_as_u32_or_u64`"
-                )
-        )?;
-        return Err(Error::new(litint.span(), err_msg));
+        return Err(Error::new(litint.span(), format!("the integer literal = `{litint:?}` passed into `uconst` is too large to be represented by {} bits", usize::BITS).as_str()));
     }
 
-    let litint_u32_or_u64: usize = match litint.base10_parse::<usize>() {
-        Ok(num) => num,
-        Err(err) => {
-            return {
-                let mut wrong_chars = [0_u8; 512];
-                let _ = litint
-                    .base10_digits()
-                    .chars()
-                    .filter(|c| !c.is_ascii_digit())
-                    .enumerate()
-                    .map(|(idx, c)| {
-                        let wrong_chars_idx_mut_ref = wrong_chars.get_mut(idx).ok_or_else(
-                            || Error::new(litint.span(),
-                                "number of wrong characters in the literal constant passed into `uconst` is larger than 512 bytes in size",
-                            )
-                        )?;
-                        *wrong_chars_idx_mut_ref = c as u8;
-                        Ok::<(), Error>(())
-                    });
-                let wrong_chars_str = core::str::from_utf8(&wrong_chars).map_err(|_| {
-                    Error::new(litint.span(),
-                 "there are some characters passed into the `uconst` macro are not valid utf-8",)
-                })?;
-                let mut buf = [0u8; 512];
-                Err(Error::new_spanned(
-                    litint.token(),
-                    no_std_format!(
-                        &mut buf,
-                        "the literal passed into `uconst!(...)` cannot be parsed into `u64`; `{litint}` contains these characters which are not digits: {wrong_chars_str:?}; source error: {err}"
-                    ).map_err(
-                        |_| Error::new(litint.span(), "512 bytes is not sufficient memory space to format the error message; error originated from forming `wrong_chars_str`")
-                    )?,
-                ))
-            }
-        }
-    };
+    let litint_u32_or_u64 = litint.base10_parse::<usize>()?;
     if uints().any(|uint| uint as usize == litint_u32_or_u64) {
         let ident = format_ident!("U{litint_u32_or_u64}");
         return Ok(quote!(::typenum::consts::#ident));
     }
-    let mut buf = [0u8; 512];
-    let ts = digits_to_uint(no_std_format!(&mut buf, "{}", litint_u32_or_u64).map_err(|_| {
-        Error::new(Span::call_site(), "unable to allocate enough memory for the string representation of `litint_u32_or_u64`")
-    })?)?;
+    let ts = digits_to_uint(&format!("{}", litint_u32_or_u64))?;
     Ok(quote!(#ts))
 }
 
