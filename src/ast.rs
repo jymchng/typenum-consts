@@ -52,6 +52,10 @@ fn which_lit_integer_or_exprs(input: ParseStream, sign: Sign) -> Result<LitInteg
         );
         let content;
         braced!(content in input);
+        if content.is_empty() {
+            return Err(content
+                .error("the content within the block delimited by `{...}` must not be empty"));
+        }
         let stmts = content.call(Block::parse_within)?;
         Ok(sign.math_exprs(stmts)?)
     } else if lookahead.peek(Ident) {

@@ -18,9 +18,7 @@ pub(crate) fn tnconst_impl_math_exprs(math_exprs: MathExprs) -> Result<TokenStre
 
 pub(crate) fn pconst_impl_lit_integer(lit_integer: LitInteger) -> Result<TokenStream2> {
     match lit_integer {
-        LitInteger::Unsigned { lit_integer } => Err(
-            Error::new(lit_integer.span(), "using `pconst![...]` but the inputs to the macro results in an unsigned literal integer")
-        ),
+        LitInteger::Unsigned { lit_integer } => pconst_impl(lit_integer),
         LitInteger::Positive { lit_integer } => pconst_impl(lit_integer),
         LitInteger::Negative { lit_integer } => Err(
             Error::new(lit_integer.span(), "using `pconst![...]` but the inputs to the macro results in an negative literal integer")
@@ -38,9 +36,7 @@ pub(crate) fn nconst_impl_math_exprs(math_exprs: MathExprs) -> Result<TokenStrea
 
 pub(crate) fn nconst_impl_lit_integer(lit_integer: LitInteger) -> Result<TokenStream2> {
     match lit_integer {
-        LitInteger::Unsigned { lit_integer } => Err(
-            Error::new(lit_integer.span(), "using `nconst![...]` but the inputs to the macro results in an unsigned literal integer")
-        ),
+        LitInteger::Unsigned { lit_integer } => nconst_impl(lit_integer),
         LitInteger::Positive { lit_integer } => Err(
             Error::new(lit_integer.span(), "using `nconst![...]` but the inputs to the macro results in an positive literal integer")
         ),
