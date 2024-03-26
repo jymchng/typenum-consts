@@ -61,33 +61,7 @@ fn test_env_without_filepath() {
     let _wrapper = Wrapper::<ActualType>(PhantomData);
 
     #[allow(dead_code)]
-    type ExpectedType = ::typenum::PInt<
-        ::typenum::Sum<
-            ::typenum::Prod<
-                ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U3>,
-                ::typenum::consts::U6,
-            >,
-            ::typenum::Sum<
-                ::typenum::Prod<
-                    ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U2>,
-                    ::typenum::consts::U9,
-                >,
-                ::typenum::Sum<
-                    ::typenum::Prod<
-                        ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U1>,
-                        ::typenum::consts::U6,
-                    >,
-                    ::typenum::Sum<
-                        ::typenum::Prod<
-                            ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U0>,
-                            ::typenum::consts::U9,
-                        >,
-                        ::typenum::consts::U0,
-                    >,
-                >,
-            >,
-        >,
-    >;
+    type ExpectedType = ::typenum::consts::P69;
 
     typenum::assert_type_eq!(ExpectedType, ActualType);
     #[cfg(target_pointer_width = "32")]
@@ -113,33 +87,7 @@ fn test_env_without_semicolon() {
     let _wrapper = Wrapper::<ActualType>(PhantomData);
 
     #[allow(dead_code)]
-    type ExpectedType = ::typenum::PInt<
-        ::typenum::Sum<
-            ::typenum::Prod<
-                ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U3>,
-                ::typenum::consts::U6,
-            >,
-            ::typenum::Sum<
-                ::typenum::Prod<
-                    ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U2>,
-                    ::typenum::consts::U9,
-                >,
-                ::typenum::Sum<
-                    ::typenum::Prod<
-                        ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U1>,
-                        ::typenum::consts::U6,
-                    >,
-                    ::typenum::Sum<
-                        ::typenum::Prod<
-                            ::typenum::Exp<::typenum::consts::U10, ::typenum::consts::U0>,
-                            ::typenum::consts::U9,
-                        >,
-                        ::typenum::consts::U0,
-                    >,
-                >,
-            >,
-        >,
-    >;
+    type ExpectedType = ::typenum::P69;
 
     typenum::assert_type_eq!(ExpectedType, ActualType);
     #[cfg(target_pointer_width = "32")]
