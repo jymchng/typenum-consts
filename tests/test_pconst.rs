@@ -159,3 +159,12 @@ fn test_pconst() {
         <ActualType as typenum::ToInt<I32OrI64>>::INT
     );
 }
+
+#[test]
+fn test_file_path_works() {
+    use typenum::{assert_type_eq, consts::P69};
+    use typenum_consts::pconst;
+
+    assert_type_eq!(pconst![+ env!("ENV_VAR", "tests/.env.dev");], P69);
+    assert_type_eq!(pconst![env!("ENV_VAR", "tests/.env.dev")], P69);
+}

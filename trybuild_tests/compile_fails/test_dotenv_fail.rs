@@ -1,10 +1,10 @@
 fn test_tnconst() {
     use typenum_consts::tnconst;
 
-    type A = tnconst![+ env!("SEXY_SECRET");];
-    type B = tnconst![+ env!("SEXY_SECRET", "");];
-    type C = tnconst![+ env!("SEXY_SECRET",,);];
-    type D = tnconst![+ env!(,,"SEXY_SECRET");];
+    type A = tnconst![+ env!("BAD_SECRET");];
+    type B = tnconst![+ env!("BAD_SECRET", "");];
+    type C = tnconst![+ env!("BAD_SECRET",,);];
+    type D = tnconst![+ env!(,,"BAD_SECRET");];
     type E = tnconst![+ env!("", );];
     type F = tnconst![+ env!("", "");];
     type G = tnconst![% env!("", "");];
@@ -18,10 +18,10 @@ fn test_tnconst() {
 fn test_pconst() {
     use typenum_consts::pconst;
 
-    type A = pconst![+ env!("SEXY_SECRET");];
-    type B = pconst![+ env!("SEXY_SECRET", "");];
-    type C = pconst![+ env!("SEXY_SECRET",,);];
-    type D = pconst![+ env!(,,"SEXY_SECRET");];
+    type A = pconst![+ env!("BAD_SECRET");];
+    type B = pconst![+ env!("BAD_SECRET", "");];
+    type C = pconst![+ env!("BAD_SECRET",,);];
+    type D = pconst![+ env!(,,"BAD_SECRET");];
     type E = pconst![+ env!("", );];
     type F = pconst![+ env!("", "");];
     type G = pconst![% env!("", "");];
@@ -40,10 +40,10 @@ fn test_pconst() {
 fn test_nconst() {
     use typenum_consts::nconst;
 
-    type A = nconst![- env!("SEXY_SECRET");];
-    type B = nconst![- env!("SEXY_SECRET", "");];
-    type C = nconst![- env!("SEXY_SECRET",,);];
-    type D = nconst![- env!(,,"SEXY_SECRET");];
+    type A = nconst![- env!("BAD_SECRET");];
+    type B = nconst![- env!("BAD_SECRET", "");];
+    type C = nconst![- env!("BAD_SECRET",,);];
+    type D = nconst![- env!(,,"BAD_SECRET");];
     type E = nconst![- env!("", );];
     type F = nconst![- env!("", "");];
     type G = nconst![% env!("", "");];
@@ -63,10 +63,10 @@ fn test_nconst() {
 fn test_uconst() {
     use typenum_consts::uconst;
 
-    type A = uconst![ env!("SEXY_SECRET");];
-    type B = uconst![ env!("SEXY_SECRET", "");];
-    type C = uconst![ env!("SEXY_SECRET",,);];
-    type D = uconst![ env!(,,"SEXY_SECRET");];
+    type A = uconst![ env!("BAD_SECRET");];
+    type B = uconst![ env!("BAD_SECRET", "");];
+    type C = uconst![ env!("BAD_SECRET",,);];
+    type D = uconst![ env!(,,"BAD_SECRET");];
     type E = uconst![ env!("", );];
     type F = uconst![ env!("", "");];
     type G = uconst![% env!("", "");];
@@ -81,6 +81,10 @@ fn test_uconst() {
     }];
     type N = uconst![+ 6969;];
     type M = uconst![- 6969;];
+    type O = uconst![+ env!("ENV_VAR");]; // Read from environment, get a literal int => typenum::PInt
+    type P = uconst![ {
+        100 - 6969;
+    };];
     println!("test_uconst Passed!");
 }
 
