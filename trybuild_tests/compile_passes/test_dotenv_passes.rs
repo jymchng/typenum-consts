@@ -1,13 +1,13 @@
-/// export SEXY_SECRET="69" && cargo test
+/// export ENV_VAR="69" && cargo test
 
 fn test_tnconst() {
     // use std::{env, fs};
     use typenum::{assert_type_eq, consts::*};
     use typenum_consts::tnconst;
 
-    type A = tnconst![+ env!("SEXY_SECRET");]; // Read from environment, get a literal int => typenum::PInt
-    type B = tnconst![- env!("SEXY_SECRET");]; // Read from environment, get a literal int => typenum::NInt
-    type C = tnconst![ env!("SEXY_SECRET");]; // Read from environment, get a literal int => typenum::UInt
+    type A = tnconst![+ env!("ENV_VAR");]; // Read from environment, get a literal int => typenum::PInt
+    type B = tnconst![- env!("ENV_VAR");]; // Read from environment, get a literal int => typenum::NInt
+    type C = tnconst![ env!("ENV_VAR");]; // Read from environment, get a literal int => typenum::UInt
 
     assert_type_eq!(A, P69);
     assert_type_eq!(B, N69);

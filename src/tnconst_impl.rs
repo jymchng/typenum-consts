@@ -1,4 +1,4 @@
-use crate::types::{LitInteger, MathExprs};
+use crate::ast::{LitInteger, MathExprs};
 use crate::{exprs_impl::eval_exprs, uconst_impl};
 use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;

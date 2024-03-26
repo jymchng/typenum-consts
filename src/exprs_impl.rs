@@ -1,4 +1,4 @@
-use crate::types::{LitInteger, MathExprs};
+use crate::ast::{LitInteger, MathExprs};
 use proc_macro2::Span;
 use quote::ToTokens;
 use rsc::{parse, tokenize, Interpreter, Variant};

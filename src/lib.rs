@@ -1,8 +1,8 @@
 #![doc = include_str!("../README.md")]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
+use crate::ast::LitIntegerOrExprs;
 use crate::macros::debug_eprintln;
-use crate::types::LitIntegerOrExprs;
 use proc_macro::{self, TokenStream};
 use tnconst_impl::{
     nconst_impl_lit_integer, nconst_impl_math_exprs, pconst_impl_lit_integer,
@@ -10,11 +10,11 @@ use tnconst_impl::{
     uconst_impl_lit_integer, uconst_impl_math_exprs,
 };
 
+mod ast;
 mod ast_macro;
 mod exprs_impl;
 mod macros;
 mod tnconst_impl;
-mod types;
 mod uconst_impl;
 
 #[cfg(debug_assertions)]
