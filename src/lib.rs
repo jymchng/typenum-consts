@@ -10,7 +10,7 @@ use tnconst_impl::{
     uconst_impl_lit_integer, uconst_impl_math_exprs,
 };
 
-mod dotenv;
+mod ast_macro;
 mod exprs_impl;
 mod macros;
 mod tnconst_impl;

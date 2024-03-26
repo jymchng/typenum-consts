@@ -1,4 +1,4 @@
-use crate::{debug_eprintln, dotenv::EnvMacro};
+use crate::{ast_macro::EnvMacro, debug_eprintln};
 use syn::{
     braced,
     parse::{Parse, ParseStream},

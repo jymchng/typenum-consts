@@ -56,7 +56,7 @@ fn test_env_without_filepath() {
 
     struct Wrapper<T: typenum::NonZero>(PhantomData<T>);
 
-    type ActualType = tnconst![+ env!("SEXY_SECRET");];
+    type ActualType = tnconst![+ env!("ENV_VAR");];
 
     let _wrapper = Wrapper::<ActualType>(PhantomData);
 
@@ -107,7 +107,7 @@ fn test_env_without_semicolon() {
 
     struct Wrapper<T: typenum::NonZero>(PhantomData<T>);
 
-    type ActualType = tnconst![+ env!("SEXY_SECRET")];
+    type ActualType = tnconst![+ env!("ENV_VAR")];
     type _ActualType2 = tnconst![+ env!("SECRET", "tests/.env.dev")];
 
     let _wrapper = Wrapper::<ActualType>(PhantomData);
