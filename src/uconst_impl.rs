@@ -42,10 +42,10 @@ fn digits_to_uint(digits: &str) -> Result<proc_macro2::TokenStream> {
 
 fn can_represent_as_u32_or_u64(digits: &str) -> Result<bool> {
     #[cfg(target_pointer_width = "32")]
-    let num_digit: usize = 10;
+    let (num_digit, usize_max_as_str): (usize, &str) = (10, "4294967295");
 
     #[cfg(target_pointer_width = "64")]
-    let num_digit: usize = 20;
+    let (num_digit, usize_max_as_str): (usize, &str) = (20, "18446744073709551615");
 
     if digits.is_empty() {
         return Ok(false);
@@ -63,7 +63,7 @@ fn can_represent_as_u32_or_u64(digits: &str) -> Result<bool> {
 
     if digits.len() == num_digit {
         debug_eprintln!("`if digits.len() == num_digit`: {digits}");
-        return Ok(digits <= &format!("{}", usize::MAX));
+        return Ok(digits <= usize_max_as_str);
     }
 
     Ok(true)

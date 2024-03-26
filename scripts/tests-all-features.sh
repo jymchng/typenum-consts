@@ -6,6 +6,9 @@ features=("debug")
 # Calculate the total number of features
 total_features=${#features[@]}
 
+# Export `ENV_VAR`
+export ENV_VAR="69"
+
 # Function to generate combinations of features
 generate_combinations() {
     local index=$1
