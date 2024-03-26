@@ -61,8 +61,7 @@ impl EnvArgs {
                             ),
                         )
                     })?;
-                    #[allow(clippy::needless_return)]
-                    return env::var(&key).map_err(|e| {
+                    env::var(&key).map_err(|e| {
                         Error::new(
                             litkey.span(),
                             format!(
@@ -71,7 +70,7 @@ impl EnvArgs {
                                 &env_path.display()
                             ),
                         )
-                    });
+                    })
                 }
                 Err(err) => {
                     Err(Error::new(
@@ -81,8 +80,7 @@ impl EnvArgs {
                 }
             }
         } else {
-            #[allow(clippy::needless_return)]
-            return env::var(&key).map_err(|e| {
+            env::var(&key).map_err(|e| {
                 Error::new(
                     litkey.span(),
                     format!(
@@ -90,7 +88,7 @@ impl EnvArgs {
                         key
                     ),
                 )
-            });
+            })
         }
     }
 }
