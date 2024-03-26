@@ -74,11 +74,10 @@ impl EnvArgs {
                     });
                 }
                 Err(err) => {
-                    #[allow(clippy::needless_return)]
-                    return Err(Error::new(
+                    Err(Error::new(
                         litpath.span(),
                         format!("failed to locate the file = `{}`, the 3 file paths which are searched for are `{err:?}`", &env_path.display()),
-                    ));
+                    ))
                 }
             }
         } else {
