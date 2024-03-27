@@ -17,10 +17,6 @@ mod macros;
 mod tnconst_impl;
 mod uconst_impl;
 
-#[cfg(debug_assertions)]
-#[cfg(feature = "debug")]
-extern crate std;
-
 #[proc_macro]
 pub fn uconst(items: TokenStream) -> TokenStream {
     match syn::parse::<LitIntegerOrExprs>(items) {
