@@ -370,7 +370,6 @@ dependencies = [
  "dotenv",
  "proc-macro2",
  "quote",
- "rsc",
  "syn 2.0.55",
  "trybuild",
  "typenum",

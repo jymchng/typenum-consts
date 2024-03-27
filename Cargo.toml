@@ -5,3 +5,8 @@ members = [
     "typenum-consts-core",
     "vendors/rsc",
 ]
+
+[workspace.package]
+name = "typenum-consts" # the name of the package
+version = "0.1.0"    # the current version, obeying semver
+authors = ["Jim Chng <jimchng@outlook.com>"]

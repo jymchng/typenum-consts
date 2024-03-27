@@ -17,9 +17,8 @@ mod macros;
 mod tnconst_impl;
 mod uconst_impl;
 
-#[cfg(debug_assertions)]
-#[cfg(feature = "debug")]
-extern crate std;
+#[path = "../../vendors/rsc/src/lib.rs"]
+mod rsc;
 
 #[proc_macro]
 pub fn uconst(items: TokenStream) -> TokenStream {
