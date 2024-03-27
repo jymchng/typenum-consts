@@ -17,6 +17,9 @@ mod macros;
 mod tnconst_impl;
 mod uconst_impl;
 
+#[path = "../vendors/rsc/src/lib.rs"]
+mod rsc;
+
 #[proc_macro]
 pub fn uconst(items: TokenStream) -> TokenStream {
     match syn::parse::<LitIntegerOrExprs>(items) {

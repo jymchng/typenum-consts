@@ -79,13 +79,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rsc"
-version = "3.0.0"
-dependencies = [
- "peekmore",
-]
-
-[[package]]
 name = "ryu"
 version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -211,9 +204,9 @@ name = "typenum-consts"
 version = "0.1.0"
 dependencies = [
  "dotenv",
+ "peekmore",
  "proc-macro2",
  "quote",
- "rsc",
  "syn",
  "trybuild",
  "typenum",
