@@ -13,3 +13,7 @@ https://stackoverflow.com/questions/77153497/eager-proc-macro-expansion/77160978
 # Run tests with debug prints
 
 export ENV_VAR=69 && cargo test --config 'build.rustflags=["--cfg", "__debug_tnconst"]'
+
+# Run tests without debug prints
+
+export ENV_VAR=69 && cargo test
