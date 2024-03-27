@@ -19,7 +19,7 @@ fn main() {
     let to_look_for = format!("{}-{}", CARGO_PACKAGE_NAME, CARGO_PACKAGE_VERSION);
 
     for path in PathBuf::from(&manifest_dir).ancestors().into_iter() {
-        if !path.file_name().is_none() {
+        if path.file_name().is_some() {
             let file_name = path.file_name().unwrap();
             if file_name == CARGO_PACKAGE_NAME {
                 source_dir = Some(path.into());
@@ -37,7 +37,11 @@ fn main() {
     dbg!(&source_dir);
 
     let source_dir = source_dir.unwrap().join(VENDORS_DIR);
-    let out_dir = out_dir.unwrap_or_default();
+    let out_dir = out_dir.unwrap_or(
+        env::var("OUT_DIR")
+            .expect("Failed to get OUT_DIR environment variable")
+            .into(),
+    );
 
     let dest_dir = out_dir.clone();
 
