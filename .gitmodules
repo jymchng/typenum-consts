@@ -1,3 +1,3 @@
-[submodule "vendors/rsc"]
-	path = vendors/rsc
+[submodule "typenum-consts/vendors/rsc"]
+	path = typenum-consts/vendors/rsc
 	url = git@github.com:jymchng/rsc.git
