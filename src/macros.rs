@@ -2,7 +2,7 @@ macro_rules! debug_eprintln {
     ($($arg: tt)*) => {
 
         #[cfg(debug_assertions)]
-        #[cfg(feature = "debug")]
+        #[cfg(__debug_tnconst)]
         ::std::eprintln!($($arg)*)
     };
 }
