@@ -22,6 +22,17 @@ repos:
       - id: fmt
       - id: cargo-check
       - id: clippy
+
+  - repo: local
+    hooks:
+    - id: cargo-package
+      name: cargo-package
+      description: cargo package
+      entry: bash scripts/package-all-features.sh
+      language: system
+      types: [rust]
+      pass_filenames: false
+
 # -   repo: local
 #     hooks:
 #     -   id: cargo-test

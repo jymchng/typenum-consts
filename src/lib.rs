@@ -3,14 +3,14 @@
 
 use crate::ast::LitIntegerOrExprs;
 use crate::macros::debug_eprintln;
-#[allow(clippy::all)]
-use crate::vendors::rsc;
 use proc_macro::{self, TokenStream};
 use tnconst_impl::{
     nconst_impl_lit_integer, nconst_impl_math_exprs, pconst_impl_lit_integer,
     pconst_impl_math_exprs, tnconst_impl_lit_integer, tnconst_impl_math_exprs,
     uconst_impl_lit_integer, uconst_impl_math_exprs,
 };
+#[allow(clippy::all)]
+use vendors::rsc;
 
 mod ast;
 mod ast_macro;

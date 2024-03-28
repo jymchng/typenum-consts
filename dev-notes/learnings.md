@@ -17,3 +17,11 @@ export ENV_VAR=69 && cargo test --config 'build.rustflags=["--cfg", "__debug_tnc
 # Run tests without debug prints
 
 export ENV_VAR=69 && cargo test
+
+# Vendoring doesn't work
+
+1. Vendor specific crate from GitHub doesn't work - https://github.com/rust-lang/cargo/issues/9234
+2. Git submodule add and checkout-ed to specific commit works
+3. but, even after replacing Cargo.toml's [source.<link-to-git-repo>], `cargo package` still attempts to find the dep on `crates.io`
+
+https://users.rust-lang.org/t/publishing-a-package-with-a-vendored-crate-but-is-not-listed-as-a-dependency-because-the-vendored-crate-author-did-not-publish-his-crate-onto-crates-io-lol/108971/1
