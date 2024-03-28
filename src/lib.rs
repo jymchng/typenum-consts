@@ -20,6 +20,53 @@ mod tnconst_impl;
 mod uconst_impl;
 mod vendors;
 
+/// `uconst` is a procedural macro that converts a literal integer or an expression into a `typenum`'s type-level unsigned integer (i.e. the type implements the `typenum::Unsigned` trait).
+/// There are three ways you can invoke this macro.
+///
+/// ## 1. Invoke it with a literal integer
+///
+/// ```rust
+/// use typenum::{U123, assert_type_eq};
+/// use typenum_consts::uconst;
+///
+/// type A = uconst![123];
+/// assert_type_eq!(A, U123);
+/// ```
+///
+/// Prefixed the integer literal with either a `-` or a `+` is **NOT** fine.
+///
+/// ```compile_fail
+/// # use typenum::{U123, assert_type_eq};
+/// # use typenum_consts::uconst;
+/// type B = uconst![+123]; // Fail to compile
+/// ```
+
+/// ```compile_fail
+/// # use typenum::{U123, assert_type_eq};
+/// # use typenum_consts::uconst;
+/// type C = uconst![-123]; // Fail to compile
+/// ```
+///
+/// ## 2. Invoke using an expression or many simple mathematical expressions
+/// ```rust
+/// use typenum::{U15, assert_type_eq};
+/// use typenum_consts::uconst;
+/// type D = uconst![{
+///     a = 10;
+///     b = 5;
+///     a + b; // Last statement is always the final returned value to be casted into `typenum` type-level integer, U15
+/// }];
+/// assert_type_eq!(D, U15);
+/// ```
+///
+/// ## 3. Invoke by reading from an environment variable
+/// Note: `env!(...)` is a macro like invocation. The first parameter is **not** optional and is the key of the environment variable that `uconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`.
+/// ```rust
+/// use typenum::{U69, assert_type_eq};
+/// use typenum_consts::uconst;
+/// type E = uconst![env!("ENV_VAR");];
+/// assert_type_eq!(E, U69);
+/// ```
 #[proc_macro]
 pub fn uconst(items: TokenStream) -> TokenStream {
     match syn::parse::<LitIntegerOrExprs>(items) {
