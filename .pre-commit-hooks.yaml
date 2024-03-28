@@ -27,10 +27,10 @@
   language: system
   types: [rust]
   pass_filenames: false
-- id: cargo-package
-  name: cargo-package
-  description: cargo package
-  entry: bash scripts/package-all-features.sh
-  language: system
-  types: [rust]
-  pass_filenames: false
+# - id: cargo-package
+#   name: cargo-package
+#   description: cargo package
+#   entry: bash scripts/package-all-features.sh
+#   language: system
+#   types: [rust]
+#   pass_filenames: false
