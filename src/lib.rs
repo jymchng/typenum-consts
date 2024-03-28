@@ -3,6 +3,8 @@
 
 use crate::ast::LitIntegerOrExprs;
 use crate::macros::debug_eprintln;
+#[allow(clippy::all)]
+use crate::vendors::rsc;
 use proc_macro::{self, TokenStream};
 use tnconst_impl::{
     nconst_impl_lit_integer, nconst_impl_math_exprs, pconst_impl_lit_integer,
@@ -16,9 +18,7 @@ mod exprs_impl;
 mod macros;
 mod tnconst_impl;
 mod uconst_impl;
-
-#[path = "../vendors/rsc/src/lib.rs"]
-mod rsc;
+mod vendors;
 
 #[proc_macro]
 pub fn uconst(items: TokenStream) -> TokenStream {

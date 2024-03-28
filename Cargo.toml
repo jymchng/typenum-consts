@@ -2,11 +2,21 @@
 name = "typenum-consts"
 version = "0.1.0"
 edition = "2021"
-authors = [
-    "Jim Chng <jim.chng@outlook.com>"
+authors = ["Jim Chng <jim.chng@outlook.com>"]
+exclude = [
+    "dev-notes",
+    "assets",
+    "scripts",
+    "tests",
+    "trybuild_tests",
+    "wip",
+    "src/vendors/rsc/benches",
+    "src/vendors/rsc/src/bin",
+    "**/.gitignore",
+    "**/.gitmodules",
+    "**/.pre-commit-config.yaml",
+    "**/.pre-commit-hooks.yaml",
 ]
-exclude = ["dev-notes", "assets", "scripts", "tests", "trybuild_tests", "wip"]
-build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
