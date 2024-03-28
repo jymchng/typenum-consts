@@ -60,7 +60,7 @@ mod vendors;
 /// ```
 ///
 /// ## 3. Invoke by reading from an environment variable
-/// Note: `env!(...)` is a macro like invocation. The first parameter is **not** optional and is the key of the environment variable that `uconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`.
+/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `uconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`.
 /// ```rust
 /// use typenum::{U69, assert_type_eq};
 /// use typenum_consts::uconst;
