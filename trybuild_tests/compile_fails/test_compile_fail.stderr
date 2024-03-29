@@ -1,0 +1,401 @@
+error: failed to read `BAD_SECRET` key from the environment, err = environment variable not found
+ --> trybuild_tests/compile_fails/test_compile_fail.rs:9:30
+  |
+9 |     type A = tnconst![+ env!("BAD_SECRET");];
+  |                              ^^^^^^^^^^^^
+
+error: path cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:10:44
+   |
+10 |     type B = tnconst![+ env!("BAD_SECRET", "");];
+   |                                            ^^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:11:43
+   |
+11 |     type C = tnconst![+ env!("BAD_SECRET",,);];
+   |                                           ^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:12:30
+   |
+12 |     type D = tnconst![+ env!(,,"BAD_SECRET");];
+   |                              ^
+
+error: unexpected end of input, expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:13:34
+   |
+13 |     type E = tnconst![+ env!("", );];
+   |                                  ^
+
+error: key cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:14:30
+   |
+14 |     type F = tnconst![+ env!("", "");];
+   |                              ^^
+
+error: expected integer literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:15:23
+   |
+15 |     type G = tnconst![% env!("", "");];
+   |                       ^
+
+error: VarDoesNotExist("lame")
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:18:9
+   |
+18 |         lame;
+   |         ^^^^
+
+error: expressions should be evaluated to a negative integer, got `15` instead
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:23:9
+   |
+23 |         a + b
+   |         ^
+
+error: expressions should be evaluated to a positive integer, got `-5` instead
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:28:9
+   |
+28 |         a - b
+   |         ^
+
+error: expressions should be evaluated to a non-negative or positive integer, got `-5` instead
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:33:9
+   |
+33 |         a - b
+   |         ^
+
+error: failed to read `BAD_SECRET` key from the environment, err = environment variable not found
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:35:30
+   |
+35 |     type L = tnconst![- env!("BAD_SECRET");];
+   |                              ^^^^^^^^^^^^
+
+error: path cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:36:44
+   |
+36 |     type M = tnconst![- env!("BAD_SECRET", "");];
+   |                                            ^^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:37:43
+   |
+37 |     type N = tnconst![- env!("BAD_SECRET",,);];
+   |                                           ^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:38:30
+   |
+38 |     type O = tnconst![- env!(,,"BAD_SECRET");];
+   |                              ^
+
+error: unexpected end of input, expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:39:34
+   |
+39 |     type P = tnconst![- env!("", );];
+   |                                  ^
+
+error: key cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:40:30
+   |
+40 |     type Q = tnconst![- env!("", "");];
+   |                              ^^
+
+error: failed to read `BAD_SECRET` key from the environment, err = environment variable not found
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:47:28
+   |
+47 |     type A = pconst![ env!("BAD_SECRET");];
+   |                            ^^^^^^^^^^^^
+
+error: path cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:48:42
+   |
+48 |     type B = pconst![ env!("BAD_SECRET", "");];
+   |                                          ^^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:49:41
+   |
+49 |     type C = pconst![ env!("BAD_SECRET",,);];
+   |                                         ^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:50:28
+   |
+50 |     type D = pconst![ env!(,,"BAD_SECRET");];
+   |                            ^
+
+error: unexpected end of input, expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:51:32
+   |
+51 |     type E = pconst![ env!("", );];
+   |                                ^
+
+error: key cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:52:28
+   |
+52 |     type F = pconst![ env!("", "");];
+   |                            ^^
+
+error: expected integer literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:53:22
+   |
+53 |     type G = pconst![% env!("", "");];
+   |                      ^
+
+error: expected `;`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:55:28
+   |
+55 |     type J = pconst![ 6969 {};];
+   |                            ^
+
+error: expected `;`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:56:28
+   |
+56 |     type K = pconst![ 6969 {}];
+   |                            ^
+
+error: VarDoesNotExist("lame")
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:59:9
+   |
+59 |         lame;
+   |         ^^^^
+
+error: when using `pconst`, the first character passed cannot be a `+`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:61:22
+   |
+61 |     type M = pconst![+ 69];
+   |                      ^
+
+error: when using `pconst`, the first character passed cannot be a `+`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:62:22
+   |
+62 |     type N = pconst![+ env!("ENV_VAR");];
+   |                      ^
+
+error: when using `pconst`, the first character passed cannot be a `+`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:63:22
+   |
+63 |     type O = pconst![+ {
+   |                      ^
+
+error: expressions should be evaluated to a positive integer, got `-5` instead
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:71:9
+   |
+71 |         a - b
+   |         ^
+
+error: failed to read `BAD_SECRET` key from the environment, err = environment variable not found
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:80:28
+   |
+80 |     type A = nconst![ env!("BAD_SECRET");];
+   |                            ^^^^^^^^^^^^
+
+error: path cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:81:42
+   |
+81 |     type B = nconst![ env!("BAD_SECRET", "");];
+   |                                          ^^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:82:41
+   |
+82 |     type C = nconst![ env!("BAD_SECRET",,);];
+   |                                         ^
+
+error: expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:83:28
+   |
+83 |     type D = nconst![ env!(,,"BAD_SECRET");];
+   |                            ^
+
+error: unexpected end of input, expected string literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:84:32
+   |
+84 |     type E = nconst![ env!("", );];
+   |                                ^
+
+error: key cannot be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:85:28
+   |
+85 |     type F = nconst![ env!("", "");];
+   |                            ^^
+
+error: expected integer literal
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:86:22
+   |
+86 |     type G = nconst![% env!("", "");];
+   |                      ^
+
+error: expected `;`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:88:28
+   |
+88 |     type J = nconst![ 6969 {};];
+   |                            ^
+
+error: expected `;`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:89:28
+   |
+89 |     type K = nconst![ 6969 {}];
+   |                            ^
+
+error: VarDoesNotExist("lame")
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:92:9
+   |
+92 |         lame;
+   |         ^^^^
+
+error: unexpected end of input, the content within the block delimited by `{...}` must not be empty
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:94:23
+   |
+94 |     type M = nconst![{}];
+   |                       ^
+
+error: when using `nconst`, the first character passed cannot be a `-`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:95:22
+   |
+95 |     type R = nconst![- 69];
+   |                      ^
+
+error: when using `nconst`, the first character passed cannot be a `-`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:96:22
+   |
+96 |     type N = nconst![- env!("ENV_VAR");];
+   |                      ^
+
+error: when using `nconst`, the first character passed cannot be a `-`
+  --> trybuild_tests/compile_fails/test_compile_fail.rs:97:22
+   |
+97 |     type O = nconst![- {
+   |                      ^
+
+error: expressions should be evaluated to a negative integer, got `15` instead
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:105:9
+    |
+105 |         a + b
+    |         ^
+
+error: failed to read `BAD_SECRET` key from the environment, err = environment variable not found
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:114:28
+    |
+114 |     type A = uconst![ env!("BAD_SECRET");];
+    |                            ^^^^^^^^^^^^
+
+error: path cannot be empty
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:115:42
+    |
+115 |     type B = uconst![ env!("BAD_SECRET", "");];
+    |                                          ^^
+
+error: expected string literal
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:116:41
+    |
+116 |     type C = uconst![ env!("BAD_SECRET",,);];
+    |                                         ^
+
+error: expected string literal
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:117:28
+    |
+117 |     type D = uconst![ env!(,,"BAD_SECRET");];
+    |                            ^
+
+error: unexpected end of input, expected string literal
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:118:32
+    |
+118 |     type E = uconst![ env!("", );];
+    |                                ^
+
+error: key cannot be empty
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:119:28
+    |
+119 |     type F = uconst![ env!("", "");];
+    |                            ^^
+
+error: expected integer literal
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:120:22
+    |
+120 |     type G = uconst![% env!("", "");];
+    |                      ^
+
+error: expected `;`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:122:28
+    |
+122 |     type J = uconst![ 6969 {};];
+    |                            ^
+
+error: expected `;`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:123:28
+    |
+123 |     type K = uconst![ 6969 {}];
+    |                            ^
+
+error: VarDoesNotExist("lame")
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:126:9
+    |
+126 |         lame;
+    |         ^^^^
+
+error: unexpected token
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:130:38
+    |
+130 |     type O = uconst![env!("ENV_VAR");;];
+    |                                      ^
+
+error: expressions should be evaluated to a non-negative or positive integer, got `-6869` instead
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:132:9
+    |
+132 |         100 - 6969;
+    |         ^^^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:134:22
+    |
+134 |     type R = uconst![- 69];
+    |                      ^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:135:22
+    |
+135 |     type S = uconst![- env!("ENV_VAR");];
+    |                      ^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:136:22
+    |
+136 |     type T = uconst![- {
+    |                      ^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:141:22
+    |
+141 |     type X = uconst![- {
+    |                      ^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:146:22
+    |
+146 |     type U = uconst![+ 69];
+    |                      ^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:147:22
+    |
+147 |     type V = uconst![+ env!("ENV_VAR");];
+    |                      ^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:148:22
+    |
+148 |     type W = uconst![+ {
+    |                      ^
+
+error: when using `uconst`, the first character passed cannot be a `-` or a `+`
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:153:22
+    |
+153 |     type Y = uconst![+ {
+    |                      ^
+
+error: expressions should be evaluated to a negative integer, got `15` instead
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:175:9
+    |
+175 |         b + a; // Last statement is always the final returned value to be casted into `typenum` type-level integer, U15
+    |         ^

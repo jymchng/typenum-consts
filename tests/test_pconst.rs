@@ -86,7 +86,7 @@ fn test_pconst() {
 
     struct Wrapper<T: typenum::NonZero>(PhantomData<T>);
 
-    type ActualType = pconst![+84938493];
+    type ActualType = pconst![84938493];
 
     let _wrapper = Wrapper::<ActualType>(PhantomData);
 
@@ -165,6 +165,26 @@ fn test_file_path_works() {
     use typenum::{assert_type_eq, consts::P69};
     use typenum_consts::pconst;
 
-    assert_type_eq!(pconst![+ env!("ENV_VAR", "tests/.env.dev");], P69);
+    assert_type_eq!(pconst![env!("ENV_VAR", "tests/.env.dev");], P69);
     assert_type_eq!(pconst![env!("ENV_VAR", "tests/.env.dev")], P69);
+}
+
+#[test]
+fn test_pconst_math_exprs_no_sign() {
+    use typenum::{assert_type_eq, P5};
+    use typenum_consts::pconst;
+    type D = pconst![{
+        a = 10;
+        b = 5;
+        a - b; // Last statement is always the final returned value to be casted into `typenum` type-level integer, U15
+    }];
+    #[cfg(target_pointer_width = "32")]
+    type I32OrI64 = i32;
+    #[cfg(target_pointer_width = "64")]
+    type I32OrI64 = i64;
+    assert_eq!(
+        <D as typenum::ToInt<I32OrI64>>::INT,
+        <P5 as typenum::ToInt<I32OrI64>>::INT,
+    );
+    assert_type_eq!(D, P5);
 }

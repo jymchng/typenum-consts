@@ -51,10 +51,15 @@ fn interpreter_eval(math_stmts: &[Stmt]) -> Result<isize> {
 }
 
 fn eval_exprs_neg(math_stmts: Vec<Stmt>) -> Result<LitInteger> {
-    let mut final_ans = interpreter_eval(&math_stmts)?;
+    let final_ans = interpreter_eval(&math_stmts)?;
     let last_stmt = get_last_stmt(&math_stmts)?;
-    if final_ans <= 0 {
-        final_ans = -final_ans;
+    if final_ans > 0 {
+        return Err(Error::new(
+            last_stmt.span(),
+            format!(
+                "expressions should be evaluated to a negative integer, got `{final_ans}` instead"
+            ),
+        ));
     };
     Ok(LitInteger::Negative {
         lit_integer: LitInt::new(format! {"{}", final_ans}.as_str(), last_stmt.span()),
@@ -89,6 +94,7 @@ fn eval_exprs_pos(math_stmts: Vec<Stmt>) -> Result<LitInteger> {
 fn eval_exprs_usig(math_stmts: Vec<Stmt>) -> Result<LitInteger> {
     let final_ans = interpreter_eval(&math_stmts)?;
     let last_stmt = get_last_stmt(&math_stmts)?;
+
     if final_ans < 0 {
         return Err(Error::new(
             last_stmt.span(),

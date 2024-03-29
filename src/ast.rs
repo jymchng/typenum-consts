@@ -4,7 +4,7 @@ use syn::{
     parse::{Parse, ParseStream},
     spanned::Spanned,
     token::Brace,
-    Block, Ident, LitInt, Macro, Result, Stmt, Token,
+    Block, Error, Ident, LitInt, Macro, Result, Stmt, Token,
 };
 
 pub(crate) enum MathExprs {
@@ -87,6 +87,60 @@ impl Parse for LitIntegerOrExprs {
             debug_eprintln!("`input` = {input}");
             Ok(which_lit_integer_or_exprs(input, Sign::U)?)
         }
+    }
+}
+
+pub(crate) struct NegativeLitIntegerOrExprs(pub(crate) LitIntegerOrExprs);
+
+impl Parse for NegativeLitIntegerOrExprs {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let lookahead = input.lookahead1();
+        if lookahead.peek(Token![+]) || lookahead.peek(Token![-]) {
+            return Err(Error::new(
+                lookahead.error().span(),
+                "when using `nconst`, the first character passed cannot be a `-`",
+            ));
+        }
+        Ok(NegativeLitIntegerOrExprs(which_lit_integer_or_exprs(
+            input,
+            Sign::N,
+        )?))
+    }
+}
+
+pub(crate) struct UnsignedLitIntegerOrExprs(pub(crate) LitIntegerOrExprs);
+
+impl Parse for UnsignedLitIntegerOrExprs {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let lookahead = input.lookahead1();
+        if lookahead.peek(Token![+]) || lookahead.peek(Token![-]) {
+            return Err(Error::new(
+                lookahead.error().span(),
+                "when using `uconst`, the first character passed cannot be a `-` or a `+`",
+            ));
+        }
+        Ok(UnsignedLitIntegerOrExprs(which_lit_integer_or_exprs(
+            input,
+            Sign::U,
+        )?))
+    }
+}
+
+pub(crate) struct PositiveLitIntegerOrExprs(pub(crate) LitIntegerOrExprs);
+
+impl Parse for PositiveLitIntegerOrExprs {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let lookahead = input.lookahead1();
+        if lookahead.peek(Token![+]) || lookahead.peek(Token![-]) {
+            return Err(Error::new(
+                lookahead.error().span(),
+                "when using `pconst`, the first character passed cannot be a `+`",
+            ));
+        }
+        Ok(PositiveLitIntegerOrExprs(which_lit_integer_or_exprs(
+            input,
+            Sign::P,
+        )?))
     }
 }
 
