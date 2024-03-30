@@ -10,7 +10,7 @@ Procedural macros that take a literal integer (or the result of an evaluation of
 
 ## Why?
 
-1. It saves time.
+### It saves time.
 
 Assuming you want a type-level positive integer `84938493`, `tnconst![+84938493]` outputs directly `typenum::PInt<U84938493>` (by the way, `U84938493` does not exist in `typenum::consts`). The alternative is to type `PInt<Sum<Prod<Exp<, ...>, ...>, ...>, ...>` (which argubly takes a lot more time).
 
@@ -53,7 +53,7 @@ assert_eq!(
 );
 ```
 
-2. For conditional compilation.
+### For conditional compilation.
 
 Suppose in different environments you want a different type-level integer, you can either use `#[cfg(production)] type NUMBER = U69;` or you can do the following:
 
@@ -68,6 +68,45 @@ assert_type_eq!(E, U69);
 ```
 
 All four macros, namely, `tnconst![...]`, `pconst![...]`, `uconst![...]` and `nconst![...]`, can read literal integers from the environment.
+
+## Three ways to use it
+
+Take `tnconst![...]` as the example.
+
+### 1. Invoke it with a literal integer
+
+```rust
+use typenum::{P123, assert_type_eq};
+use typenum_consts::pconst;
+type A = pconst![123];
+assert_type_eq!(A, P123);
+```
+
+### 2. Invoke using an expression or many simple mathematical expressions
+
+```rust
+use typenum::{P15, assert_type_eq};
+use typenum_consts::pconst;
+type D = pconst![{
+    a = 10;
+    b = 5;
+    a + b; // Last statement is always the final returned value to be casted into `typenum` type-level integer, P15
+}];
+assert_type_eq!(D, P15);
+```
+
+### 3. Invoke by reading from an environment variable
+
+Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `pconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`, `"ENV_VAR"` is the key to read the value from and `"./.env.prod"` is the file path relative to [`CARGO_MANIFEST_DIR`].
+```rust
+use typenum::{P69, assert_type_eq};
+use typenum_consts::pconst;
+// ``` .env
+// ENV_VAR=69
+// ```
+type E = pconst![env!("ENV_VAR");];
+assert_type_eq!(E, P69);
+```
 
 # Vendored Crates
 
