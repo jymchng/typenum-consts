@@ -71,7 +71,7 @@ All four macros, namely, `tnconst![...]`, `pconst![...]`, `uconst![...]` and `nc
 
 ## Three ways to use it
 
-Take `tnconst![...]` as the example.
+Take `pconst![...]` as the example (the rest of the macros work almost identically).
 
 ### 1. Invoke it with a literal integer
 
