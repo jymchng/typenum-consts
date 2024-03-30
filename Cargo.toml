@@ -16,8 +16,16 @@ exclude = [
     "**/.gitmodules",
     "**/.pre-commit-config.yaml",
     "**/.pre-commit-hooks.yaml",
+    ".github/*",
 ]
-
+rust-version = "1.70"
+readme = "README.md"
+repository = "https://github.com/jymchng/typenum-consts"
+description = "Procedural macros that take a literal integer (or the result of an evaluation of simple mathematical expressions or an environment variable whose value is a literal integer) and convert it to a `typenum::Unsigned` / `typenum::Integer` type-level positive/negative/unsigned integer."
+keywords = ["typenum", "type-level-integers", "proc-macro", "metaprogramming"]
+categories = ["development-tools", "mathematics", "rust-patterns"]
+documentation = "https://docs.rs/typenum-consts/latest/"
+license = "MIT OR Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
