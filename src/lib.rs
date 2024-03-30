@@ -147,12 +147,12 @@ pub fn uconst(items: TokenStream) -> TokenStream {
 /// type D = tnconst![+ {
 ///     a = 10;
 ///     b = 5;
-///     a + b; // Last statement is always the final returned value to be casted into `typenum` type-level integer, U15
+///     a + b; // Last statement is always the final returned value to be casted into `typenum` type-level integer, P15
 /// }];
 /// assert_type_eq!(D, P15);
 /// ```
 ///
-/// It is a compilation error if the mathematical expressions evaluate to a negative literal integer and you had specify a `+` prefix to ask [`tnconst!`] to evaluate the input as a [`typenum::PInt`].
+/// It is a compilation error if the mathematical expressions evaluate to a negative (positive) literal integer and you had specify a `+` (`-`) prefix to ask [`tnconst!`] to evaluate the input as a [`typenum::PInt`] ([`typenum::NInt`]).
 ///
 /// ```compile_fail
 /// use typenum::{P15, assert_type_eq};
@@ -179,7 +179,7 @@ pub fn uconst(items: TokenStream) -> TokenStream {
 /// assert_type_eq!(E, U69);
 /// ```
 ///
-/// It is a compilation error if the environment variable evaluate to a negative literal integer and you had specify a `+` prefix to ask [`tnconst!`] to evaluate the input as a [`typenum::PInt`].
+/// It is a compilation error if the environment variable evaluate to a negative (positive) literal integer and you had specify a `+` (`-`) prefix to ask [`tnconst!`] to evaluate the input as a [`typenum::PInt`] ([`typenum::NInt`]).
 ///
 /// ```compile_fail
 /// use typenum::{P69, assert_type_eq};
