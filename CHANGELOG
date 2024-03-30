@@ -1,0 +1,5 @@
+# 31 March 2024
+
+V0.1.1
+
+* Fix some issues with the documentations of `pconst!`, `nconst!`, `tnconst!` and `uconst!`.

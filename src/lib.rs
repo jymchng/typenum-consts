@@ -23,7 +23,7 @@ mod tnconst_impl;
 mod uconst_impl;
 mod vendors;
 
-/// [`uconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned integer (i.e. the type implements the [`typenum::Unsigned`] trait).
+/// [`uconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned integer (i.e. the type that implements the [`typenum::Unsigned`] trait).
 ///
 /// There are three ways you can invoke this macro.
 ///
@@ -121,9 +121,9 @@ pub fn uconst(items: TokenStream) -> TokenStream {
     }
 }
 
-/// [`tnconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned/positive/negative (depending on what is the prefix-sign) integer (i.e. the type implements the [`typenum::Unsigned`]/[`typenum::Integer`] trait).
+/// [`tnconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned/positive/negative (depending on what is the prefix-sign) integer (i.e. the type that implements the [`typenum::Unsigned`]/[`typenum::Integer`] trait).
 ///
-/// Because [`tnconst!`] can be evaluated into [`typenum::UInt`], [`typenum::PInt`] and [`typenum::NInt`], to disambiguate them, one is required to invoke the macro with either `+`, `-` to get [`tnconst!`] to evaluate the macro input as [`typenum::PInt`] or [`typenum::NInt`], respectively. [`typenum::NInt`] is the default and does not require any sign to be prefixed.
+/// Because [`tnconst!`] can be evaluated into [`typenum::UInt`], [`typenum::PInt`] and [`typenum::NInt`], to disambiguate them, one is required to invoke the macro with either `+`, `-` to get [`tnconst!`] to evaluate the macro input as [`typenum::PInt`] or [`typenum::NInt`], respectively. [`typenum::UInt`] is the default and does not require any sign to be prefixed.
 ///
 /// Examples:
 ///
@@ -217,7 +217,7 @@ pub fn tnconst(items: TokenStream) -> TokenStream {
     }
 }
 
-/// [`pconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level positive integer (i.e. the type implements the [`typenum::Integer`] trait).
+/// [`pconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level positive integer (i.e. the type that implements the [`typenum::Integer`] trait).
 ///
 /// There are three ways you can invoke this macro.
 ///
@@ -315,7 +315,7 @@ pub fn pconst(items: TokenStream) -> TokenStream {
     }
 }
 
-/// [`nconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level negative integer (i.e. the type implements the [`typenum::Integer`] trait).
+/// [`nconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level negative integer (i.e. the type that implements the [`typenum::Integer`] trait).
 ///
 /// There are three ways you can invoke this macro.
 ///
