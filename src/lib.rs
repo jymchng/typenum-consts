@@ -118,26 +118,29 @@ pub fn uconst(items: TokenStream) -> TokenStream {
 }
 
 /// [`tnconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned/positive/negative (depending on what is the prefix-sign) integer (i.e. the type implements the [`typenum::Unsigned`]/[`typenum::Integer`] trait).
-/// Because [`tnconst!`] can be evaluated into [`typenum::UInt`], [`typenum::PInt`] and [`typenum::NInt`], to disambiguate them, one is required to invoke the macro with either `+`, `-` to get [`tnconst!`] to evaluate the macro input as [`typenum::PInt`] or [`typenum::NInt`], respective. [`typenum::NInt`] is the default and does not require any sign to be prefixed.
+///
+/// Because [`tnconst!`] can be evaluated into [`typenum::UInt`], [`typenum::PInt`] and [`typenum::NInt`], to disambiguate them, one is required to invoke the macro with either `+`, `-` to get [`tnconst!`] to evaluate the macro input as [`typenum::PInt`] or [`typenum::NInt`], respectively. [`typenum::NInt`] is the default and does not require any sign to be prefixed.
 ///
 /// Examples:
+///
 /// If you invoke e.g. `tnconst![123]`, i.e. there is no sign prefixing the literal integer `123`, then this will be evaluated as a [`typenum::UInt`], specifically, [`typenum::U123`].
+///
 /// If you invoke e.g. `tnconst![-123]`, i.e. there is a negative sign prefixing the literal integer `123`, then this will be evaluated as a [`typenum::NInt`], specifically, [`typenum::N123`].
 ///
 /// There are three ways you can invoke this macro.
 ///
 /// ## 1. Invoke it with a literal integer
 ///
-///
 /// ```rust
 /// use typenum::{N123, assert_type_eq};
-/// use typenum_consts::uconst;
+/// use typenum_consts::tnconst;
 ///
 /// type A = tnconst![-123];
 /// assert_type_eq!(A, N123);
 /// ```
 ///
 /// ## 2. Invoke using an expression or many simple mathematical expressions
+///
 /// ```rust
 /// use typenum::{P15, assert_type_eq};
 /// use typenum_consts::tnconst;
@@ -163,7 +166,9 @@ pub fn uconst(items: TokenStream) -> TokenStream {
 /// ```
 ///
 /// ## 3. Invoke by reading from an environment variable
+///
 /// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `uconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`, `"ENV_VAR"` is the key to read the value from and `"./.env.prod"` is the file path relative to [`CARGO_MANIFEST_DIR`].
+///
 /// ```rust
 /// use typenum::{U69, assert_type_eq};
 /// use typenum_consts::tnconst;
@@ -189,6 +194,9 @@ pub fn uconst(items: TokenStream) -> TokenStream {
 /// [`CARGO_MANIFEST_DIR`]: https://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-crates
 /// [`typenum::Unsigned`]: https://docs.rs/typenum/latest/typenum/marker_traits/trait.Unsigned.html
 /// [`typenum::Integer`]: https://docs.rs/typenum/latest/typenum/marker_traits/trait.Integer.html
+/// [`typenum::PInt`]: https://docs.rs/typenum/latest/typenum/int/struct.PInt.html
+/// [`typenum::UInt`]: https://docs.rs/typenum/latest/typenum/uint/struct.UInt.html
+/// [`typenum::NInt`]: https://docs.rs/typenum/latest/typenum/int/struct.NInt.html
 /// [`typenum`]: https://github.com/paholg/typenum/tree/main/src
 #[proc_macro]
 pub fn tnconst(items: TokenStream) -> TokenStream {
