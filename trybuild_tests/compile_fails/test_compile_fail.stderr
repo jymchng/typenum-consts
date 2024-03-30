@@ -253,7 +253,7 @@ error: unexpected end of input, the content within the block delimited by `{...}
 error: when using `nconst`, the first character passed cannot be a `-`
   --> trybuild_tests/compile_fails/test_compile_fail.rs:95:22
    |
-95 |     type R = nconst![- 69];
+95 |     type R = nconst![-69];
    |                      ^
 
 error: when using `nconst`, the first character passed cannot be a `-`
@@ -265,7 +265,7 @@ error: when using `nconst`, the first character passed cannot be a `-`
 error: when using `nconst`, the first character passed cannot be a `-`
   --> trybuild_tests/compile_fails/test_compile_fail.rs:97:22
    |
-97 |     type O = nconst![- {
+97 |     type O = nconst![-{
    |                      ^
 
 error: expressions should be evaluated to a negative integer, got `15` instead
@@ -349,7 +349,7 @@ error: expressions should be evaluated to a non-negative or positive integer, go
 error: when using `uconst`, the first character passed cannot be a `-` or a `+`
    --> trybuild_tests/compile_fails/test_compile_fail.rs:134:22
     |
-134 |     type R = uconst![- 69];
+134 |     type R = uconst![-69];
     |                      ^
 
 error: when using `uconst`, the first character passed cannot be a `-` or a `+`
@@ -361,13 +361,13 @@ error: when using `uconst`, the first character passed cannot be a `-` or a `+`
 error: when using `uconst`, the first character passed cannot be a `-` or a `+`
    --> trybuild_tests/compile_fails/test_compile_fail.rs:136:22
     |
-136 |     type T = uconst![- {
+136 |     type T = uconst![-{
     |                      ^
 
 error: when using `uconst`, the first character passed cannot be a `-` or a `+`
    --> trybuild_tests/compile_fails/test_compile_fail.rs:141:22
     |
-141 |     type X = uconst![- {
+141 |     type X = uconst![-{
     |                      ^
 
 error: when using `uconst`, the first character passed cannot be a `-` or a `+`
