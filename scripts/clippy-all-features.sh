@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Array of feature names
-features=("debug")
+features=()
 
 # Calculate the total number of features
 total_features=${#features[@]}

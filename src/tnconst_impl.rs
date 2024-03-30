@@ -36,7 +36,9 @@ pub(crate) fn nconst_impl_math_exprs(math_exprs: MathExprs) -> Result<TokenStrea
 
 pub(crate) fn nconst_impl_lit_integer(lit_integer: LitInteger) -> Result<TokenStream2> {
     match lit_integer {
-        LitInteger::Unsigned { lit_integer } => nconst_impl(lit_integer),
+        LitInteger::Unsigned { lit_integer } => Err(
+            Error::new(lit_integer.span(), "using `nconst![...]` but the inputs to the macro results in an unsigned literal integer")
+        ),
         LitInteger::Positive { lit_integer } => Err(
             Error::new(lit_integer.span(), "using `nconst![...]` but the inputs to the macro results in an positive literal integer")
         ),
@@ -69,6 +71,11 @@ pub(crate) fn pconst_impl(lit_integer: LitInt) -> Result<TokenStream2> {
 }
 
 pub(crate) fn nconst_impl(lit_integer: LitInt) -> Result<TokenStream2> {
+    let mut lit_integer_ = lit_integer.base10_parse::<isize>()?;
+    if lit_integer_ < 0 {
+        lit_integer_ *= -1;
+    }
+    let lit_integer = LitInt::new(format!("{}", lit_integer_).as_str(), lit_integer.span());
     let unsigned_ts = uconst_impl::uconst_impl(lit_integer)?;
     Ok(quote!(
         ::typenum::NInt<#unsigned_ts>

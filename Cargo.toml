@@ -2,7 +2,30 @@
 name = "typenum-consts"
 version = "0.1.0"
 edition = "2021"
-
+authors = ["Jim Chng <jim.chng@outlook.com>"]
+exclude = [
+    "dev-notes",
+    "assets",
+    "scripts",
+    "tests",
+    "trybuild_tests",
+    "wip",
+    "src/vendors/rsc/benches",
+    "src/vendors/rsc/src/bin",
+    "**/.gitignore",
+    "**/.gitmodules",
+    "**/.pre-commit-config.yaml",
+    "**/.pre-commit-hooks.yaml",
+    ".github/*",
+]
+rust-version = "1.70"
+readme = "README.md"
+repository = "https://github.com/jymchng/typenum-consts"
+description = "Procedural macros that take a literal integer (or the result of an evaluation of simple mathematical expressions or an environment variable whose value is a literal integer) and convert it to a `typenum::Unsigned` / `typenum::Integer` type-level positive/negative/unsigned integer."
+keywords = ["typenum", "type-level-integers", "proc-macro", "metaprogramming"]
+categories = ["development-tools", "mathematics", "rust-patterns"]
+documentation = "https://docs.rs/typenum-consts/latest/"
+license = "MIT OR Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -13,13 +36,10 @@ proc-macro2 = "1.0.79"
 quote = "1.0.35"
 syn = { version = "2.0.53", features = ["extra-traits", "full"] }
 typenum = "1.17.0"
-rsc = { path = "./vendors/rsc"}
 dotenv = "0.15.0"
+peekmore = "1.0.0"
 
 [dev-dependencies]
 trybuild = "1.0.90"
 
 [features]
-# "debug" feature is meant for development, to print debug statements easily
-"debug" = []
-# "eval" = ["rsc"]
