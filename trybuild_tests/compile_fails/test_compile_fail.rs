@@ -164,6 +164,7 @@ fn main() {
     test_nconst();
     test_uconst();
     test_nconst_math_exprs_positive_result_no_sign();
+    test_env_give_positive_int();
 }
 
 fn test_nconst_math_exprs_positive_result_no_sign() {
@@ -183,4 +184,20 @@ fn test_nconst_math_exprs_positive_result_no_sign() {
         <N15 as typenum::ToInt<I32OrI64>>::INT,
     );
     assert_type_eq!(D, N15);
+}
+
+fn test_env_give_positive_int() {
+    use typenum::{assert_type_eq, N69};
+    use typenum_consts::nconst;
+    type D = nconst![env!("ENV_VAR");];
+    assert_type_eq!(D, N69);
+
+    #[cfg(target_pointer_width = "32")]
+    type I32OrI64 = i32;
+    #[cfg(target_pointer_width = "64")]
+    type I32OrI64 = i64;
+    assert_eq!(
+        <D as typenum::ToInt<I32OrI64>>::INT,
+        <N69 as typenum::ToInt<I32OrI64>>::INT,
+    );
 }

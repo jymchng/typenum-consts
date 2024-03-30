@@ -1,4 +1,5 @@
 use crate::{ast_macro::AllowedMacros, debug_eprintln};
+use quote::ToTokens;
 use syn::{
     braced,
     parse::{Parse, ParseStream},
@@ -61,7 +62,31 @@ fn which_lit_integer_or_exprs(input: ParseStream, sign: Sign) -> Result<LitInteg
     } else if lookahead.peek(Ident) {
         let some_macro = input.parse::<Macro>()?;
         let allowed_macro = AllowedMacros::which_macro(&some_macro)?;
-        let litint = LitInt::new(&allowed_macro.invoke_macro()?, some_macro.span());
+        let macro_result = &allowed_macro.invoke_macro()?;
+        let macro_result_as_isize = macro_result.parse::<isize>().map_err(|err| {
+            Error::new(
+                some_macro.span(),
+                format!(
+                    "unable to parse the output of {} invocation to `isize`; error: {err}",
+                    some_macro.path.to_token_stream()
+                ),
+            )
+        })?;
+        if let Sign::N = sign {
+            if macro_result_as_isize > 0 {
+                return Err(Error::new(
+                    some_macro.span(),
+                    format!(
+                        "invocation of {} macro does not return a negative integer literal",
+                        some_macro.path.to_token_stream()
+                    ),
+                ));
+            }
+        }
+        let litint = LitInt::new(
+            format!("{}", macro_result_as_isize).as_str(),
+            some_macro.span(),
+        );
         Ok(sign.lit_integer(litint)?)
     } else {
         Ok(sign.lit_integer(input.parse::<LitInt>()?)?)

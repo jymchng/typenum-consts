@@ -179,3 +179,20 @@ fn test_nconst_math_exprs_no_sign() {
     );
     assert_type_eq!(D, N5);
 }
+
+#[test]
+fn test_env_give_negative_int() {
+    use typenum::{assert_type_eq, N69};
+    use typenum_consts::nconst;
+    type D = nconst![env!("NENV_VAR");];
+    assert_type_eq!(D, N69);
+
+    #[cfg(target_pointer_width = "32")]
+    type I32OrI64 = i32;
+    #[cfg(target_pointer_width = "64")]
+    type I32OrI64 = i64;
+    assert_eq!(
+        <D as typenum::ToInt<I32OrI64>>::INT,
+        <N69 as typenum::ToInt<I32OrI64>>::INT,
+    );
+}

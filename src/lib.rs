@@ -23,7 +23,7 @@ mod tnconst_impl;
 mod uconst_impl;
 mod vendors;
 
-/// [`uconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`](https://github.com/paholg/typenum/tree/main/src)'s type-level unsigned integer (i.e. the type implements the `typenum::Unsigned` trait).
+/// [`uconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned integer (i.e. the type implements the [`typenum::Unsigned`] trait).
 /// There are three ways you can invoke this macro.
 ///
 /// ## 1. Invoke it with a literal integer
@@ -62,8 +62,21 @@ mod vendors;
 /// assert_type_eq!(D, U15);
 /// ```
 ///
+/// It is a compilation error if the mathematical expressions evaluate to a negative literal integer.
+///
+/// ```compile_fail
+/// use typenum::{U15, assert_type_eq};
+/// use typenum_consts::uconst;
+/// type D = uconst![{
+///     a = 10;
+///     b = 5;
+///     b - a; // 5 - 10 = -5, cannot be made into a `U15`
+/// }];
+/// assert_type_eq!(D, U15);
+/// ```
+///
 /// ## 3. Invoke by reading from an environment variable
-/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `uconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`.
+/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `uconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`, `"ENV_VAR"` is the key to read the value from and `"./.env.prod"` is the file path relative to [`CARGO_MANIFEST_DIR`].
 /// ```rust
 /// use typenum::{U69, assert_type_eq};
 /// use typenum_consts::uconst;
@@ -73,6 +86,9 @@ mod vendors;
 /// type E = uconst![env!("ENV_VAR");];
 /// assert_type_eq!(E, U69);
 /// ```
+/// [`CARGO_MANIFEST_DIR`]: https://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-crates
+/// [`typenum::Unsigned`]: https://docs.rs/typenum/latest/typenum/marker_traits/trait.Unsigned.html
+/// [`typenum`]: https://github.com/paholg/typenum/tree/main/src
 #[proc_macro]
 pub fn uconst(items: TokenStream) -> TokenStream {
     match syn::parse::<UnsignedLitIntegerOrExprs>(items) {
@@ -103,7 +119,7 @@ pub fn tnconst(items: TokenStream) -> TokenStream {
     }
 }
 
-/// [`pconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`](https://github.com/paholg/typenum/tree/main/src)'s type-level positive integer.
+/// [`pconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned integer (i.e. the type implements the [`typenum::Integer`] trait).
 /// There are three ways you can invoke this macro.
 ///
 /// ## 1. Invoke it with a literal integer
@@ -116,23 +132,18 @@ pub fn tnconst(items: TokenStream) -> TokenStream {
 /// assert_type_eq!(A, P123);
 /// ```
 ///
-/// Compilation fails if the literal integer is prefixed with a `-` or a `+`.
+/// Compilation fails if the literal integer is prefixed with either a `-` or a `+`.
 ///
 /// ```compile_fail
 /// # use typenum::{P123, assert_type_eq};
 /// # use typenum_consts::pconst;
-/// type B = pconst![-123]; // Fail to compile
-/// type C = pconst![+123]; // Fail to compile
+/// type B = pconst![+123]; // Fail to compile
 /// ```
 ///
-/// It is a **must** to not prefix the literal integer with a `+`.
-///
-/// ```rust
-/// use typenum::{P123, assert_type_eq};
-/// use typenum_consts::pconst;
-///
-/// type A = pconst![123];
-/// assert_type_eq!(A, P123);
+/// ```compile_fail
+/// # use typenum::{P123, assert_type_eq};
+/// # use typenum_consts::pconst;
+/// type C = pconst![-123]; // Fail to compile
 /// ```
 ///
 /// ## 2. Invoke using an expression or many simple mathematical expressions
@@ -143,13 +154,25 @@ pub fn tnconst(items: TokenStream) -> TokenStream {
 ///     a = 10;
 ///     b = 5;
 ///     a + b; // Last statement is always the final returned value to be casted into `typenum` type-level integer, P15
-///     // In this case, it must always be positive or else compilation will fail.
+/// }];
+/// assert_type_eq!(D, P15);
+/// ```
+///
+/// It is a compilation error if the mathematical expressions evaluate to a negative literal integer.
+///
+/// ```compile_fail
+/// use typenum::{P15, assert_type_eq};
+/// use typenum_consts::pconst;
+/// type D = pconst![{
+///     a = 10;
+///     b = 5;
+///     b - a; // 5 - 10 = -5, cannot be made into a `PInt<U15>`
 /// }];
 /// assert_type_eq!(D, P15);
 /// ```
 ///
 /// ## 3. Invoke by reading from an environment variable
-/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `pconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`.
+/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `pconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`, `"ENV_VAR"` is the key to read the value from and `"./.env.prod"` is the file path relative to [`CARGO_MANIFEST_DIR`].
 /// ```rust
 /// use typenum::{P69, assert_type_eq};
 /// use typenum_consts::pconst;
@@ -159,6 +182,9 @@ pub fn tnconst(items: TokenStream) -> TokenStream {
 /// type E = pconst![env!("ENV_VAR");];
 /// assert_type_eq!(E, P69);
 /// ```
+/// [`CARGO_MANIFEST_DIR`]: https://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-crates
+/// [`typenum::Integer`]: https://docs.rs/typenum/latest/typenum/marker_traits/trait.Integer.html
+/// [`typenum`]: https://github.com/paholg/typenum/tree/main/src
 #[proc_macro]
 pub fn pconst(items: TokenStream) -> TokenStream {
     match syn::parse::<PositiveLitIntegerOrExprs>(items) {
@@ -174,6 +200,72 @@ pub fn pconst(items: TokenStream) -> TokenStream {
     }
 }
 
+/// [`nconst!`] is a procedural macro that converts a literal integer or an expression into a [`typenum`]'s type-level unsigned integer (i.e. the type implements the [`typenum::Integer`] trait).
+/// There are three ways you can invoke this macro.
+///
+/// ## 1. Invoke it with a literal integer
+///
+/// ```rust
+/// use typenum::{N123, assert_type_eq};
+/// use typenum_consts::nconst;
+///
+/// type A = nconst![123];
+/// assert_type_eq!(A, N123);
+/// ```
+///
+/// Compilation fails if the literal integer is prefixed with either a `-` or a `+`.
+///
+/// ```compile_fail
+/// # use typenum::{N123, assert_type_eq};
+/// # use typenum_consts::nconst;
+/// type B = nconst![+123]; // Fail to compile
+/// ```
+///
+/// ```compile_fail
+/// # use typenum::{N123, assert_type_eq};
+/// # use typenum_consts::nconst;
+/// type C = nconst![-123]; // Fail to compile
+/// ```
+///
+/// ## 2. Invoke using an expression or many simple mathematical expressions
+/// ```rust
+/// use typenum::{N15, assert_type_eq};
+/// use typenum_consts::nconst;
+/// type D = nconst![{
+///     a = 10;
+///     b = 5;
+///     0 - a - b; // Last statement is always the final returned value to be casted into `typenum` type-level integer, N15
+/// }];
+/// assert_type_eq!(D, N15);
+/// ```
+///
+/// It is a compilation error if the mathematical expressions evaluate to a positive literal integer.
+///
+/// ```compile_fail
+/// use typenum::{N15, assert_type_eq};
+/// use typenum_consts::nconst;
+/// type D = nconst![{
+///     a = 10;
+///     b = 5;
+///     b + a; // 5 + 10 = 15, cannot be made into a `N15`
+/// }];
+/// assert_type_eq!(D, N15);
+/// ```
+///
+/// ## 3. Invoke by reading from an environment variable
+/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `nconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`, `"ENV_VAR"` is the key to read the value from and `"./.env.prod"` is the file path relative to [`CARGO_MANIFEST_DIR`].
+/// ```rust
+/// use typenum::{N69, assert_type_eq};
+/// use typenum_consts::nconst;
+/// // ``` .env
+/// // NENV_VAR=-69
+/// // ```
+/// type E = nconst![env!("NENV_VAR");];
+/// assert_type_eq!(E, N69);
+/// ```
+/// [`CARGO_MANIFEST_DIR`]: https://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-crates
+/// [`typenum::Integer`]: https://docs.rs/typenum/latest/typenum/marker_traits/trait.Integer.html
+/// [`typenum`]: https://github.com/paholg/typenum/tree/main/src
 #[proc_macro]
 pub fn nconst(items: TokenStream) -> TokenStream {
     match syn::parse::<NegativeLitIntegerOrExprs>(items) {

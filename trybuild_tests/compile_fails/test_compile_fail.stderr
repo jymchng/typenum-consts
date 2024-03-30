@@ -395,7 +395,13 @@ error: when using `uconst`, the first character passed cannot be a `-` or a `+`
     |                      ^
 
 error: expressions should be evaluated to a negative integer, got `15` instead
-   --> trybuild_tests/compile_fails/test_compile_fail.rs:175:9
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:176:9
     |
-175 |         b + a; // Last statement is always the final returned value to be casted into `typenum` type-level integer, U15
+176 |         b + a; // Last statement is always the final returned value to be casted into `typenum` type-level integer, U15
     |         ^
+
+error: invocation of env macro does not return a negative integer literal
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:192:22
+    |
+192 |     type D = nconst![env!("ENV_VAR");];
+    |                      ^^^
