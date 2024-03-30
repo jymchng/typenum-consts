@@ -72,15 +72,39 @@ fn which_lit_integer_or_exprs(input: ParseStream, sign: Sign) -> Result<LitInteg
                 ),
             )
         })?;
-        if let Sign::N = sign {
-            if macro_result_as_isize > 0 {
-                return Err(Error::new(
-                    some_macro.span(),
-                    format!(
-                        "invocation of {} macro does not return a negative integer literal",
-                        some_macro.path.to_token_stream()
-                    ),
-                ));
+        match sign {
+            Sign::N => {
+                if macro_result_as_isize > 0 {
+                    return Err(Error::new(
+                        some_macro.span(),
+                        format!(
+                            "invocation of {} macro does not return a negative integer literal",
+                            some_macro.path.to_token_stream()
+                        ),
+                    ));
+                }
+            }
+            Sign::P => {
+                if macro_result_as_isize < 0 {
+                    return Err(Error::new(
+                        some_macro.span(),
+                        format!(
+                            "invocation of {} macro does not return a positive integer literal",
+                            some_macro.path.to_token_stream()
+                        ),
+                    ));
+                }
+            }
+            Sign::U => {
+                if macro_result_as_isize < 0 {
+                    return Err(Error::new(
+                        some_macro.span(),
+                        format!(
+                            "invocation of {} macro does not return a positive integer literal",
+                            some_macro.path.to_token_stream()
+                        ),
+                    ));
+                }
             }
         }
         let litint = LitInt::new(

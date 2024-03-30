@@ -164,7 +164,7 @@ fn main() {
     test_nconst();
     test_uconst();
     test_nconst_math_exprs_positive_result_no_sign();
-    test_env_give_positive_int();
+    test_env_give_positive_int_nconst();
 }
 
 fn test_nconst_math_exprs_positive_result_no_sign() {
@@ -186,7 +186,7 @@ fn test_nconst_math_exprs_positive_result_no_sign() {
     assert_type_eq!(D, N15);
 }
 
-fn test_env_give_positive_int() {
+fn test_env_give_positive_int_nconst() {
     use typenum::{assert_type_eq, N69};
     use typenum_consts::nconst;
     type D = nconst![env!("ENV_VAR");];
@@ -199,5 +199,37 @@ fn test_env_give_positive_int() {
     assert_eq!(
         <D as typenum::ToInt<I32OrI64>>::INT,
         <N69 as typenum::ToInt<I32OrI64>>::INT,
+    );
+}
+
+fn test_env_give_negative_int_pconst() {
+    use typenum::{assert_type_eq, P69};
+    use typenum_consts::pconst;
+    type D = pconst![env!("NENV_VAR");];
+    assert_type_eq!(D, P69);
+
+    #[cfg(target_pointer_width = "32")]
+    type I32OrI64 = i32;
+    #[cfg(target_pointer_width = "64")]
+    type I32OrI64 = i64;
+    assert_eq!(
+        <D as typenum::ToInt<I32OrI64>>::INT,
+        <P69 as typenum::ToInt<I32OrI64>>::INT,
+    );
+}
+
+fn test_env_give_negative_int_uconst() {
+    use typenum::{assert_type_eq, U69};
+    use typenum_consts::uconst;
+    type D = uconst![env!("NENV_VAR");];
+    assert_type_eq!(D, U69);
+
+    #[cfg(target_pointer_width = "32")]
+    type I32OrI64 = i32;
+    #[cfg(target_pointer_width = "64")]
+    type I32OrI64 = i64;
+    assert_eq!(
+        <D as typenum::ToInt<I32OrI64>>::INT,
+        <U69 as typenum::ToInt<I32OrI64>>::INT,
     );
 }

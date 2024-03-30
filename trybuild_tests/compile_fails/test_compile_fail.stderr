@@ -405,3 +405,15 @@ error: invocation of env macro does not return a negative integer literal
     |
 192 |     type D = nconst![env!("ENV_VAR");];
     |                      ^^^
+
+error: invocation of env macro does not return a positive integer literal
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:208:22
+    |
+208 |     type D = pconst![env!("NENV_VAR");];
+    |                      ^^^
+
+error: invocation of env macro does not return a positive integer literal
+   --> trybuild_tests/compile_fails/test_compile_fail.rs:224:22
+    |
+224 |     type D = uconst![env!("NENV_VAR");];
+    |                      ^^^
