@@ -67,7 +67,7 @@ fn which_lit_integer_or_exprs(input: ParseStream, sign: Sign) -> Result<LitInteg
             Error::new(
                 some_macro.span(),
                 format!(
-                    "unable to parse the output of {} invocation to `isize`; error: {err}",
+                    "unable to parse the output of `{}` macro invocation to `isize`; error: {err}",
                     some_macro.path.to_token_stream()
                 ),
             )
@@ -78,7 +78,7 @@ fn which_lit_integer_or_exprs(input: ParseStream, sign: Sign) -> Result<LitInteg
                     return Err(Error::new(
                         some_macro.span(),
                         format!(
-                            "invocation of {} macro does not return a negative integer literal",
+                            "invocation of `{}` macro does not return a negative integer literal",
                             some_macro.path.to_token_stream()
                         ),
                     ));
@@ -89,7 +89,7 @@ fn which_lit_integer_or_exprs(input: ParseStream, sign: Sign) -> Result<LitInteg
                     return Err(Error::new(
                         some_macro.span(),
                         format!(
-                            "invocation of {} macro does not return a positive integer literal",
+                            "invocation of `{}` macro does not return a positive integer literal",
                             some_macro.path.to_token_stream()
                         ),
                     ));
@@ -100,7 +100,7 @@ fn which_lit_integer_or_exprs(input: ParseStream, sign: Sign) -> Result<LitInteg
                     return Err(Error::new(
                         some_macro.span(),
                         format!(
-                            "invocation of {} macro does not return a positive integer literal",
+                            "invocation of `{}` macro does not return a positive integer literal",
                             some_macro.path.to_token_stream()
                         ),
                     ));

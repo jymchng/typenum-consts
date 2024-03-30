@@ -38,6 +38,9 @@ fn test_tnconst() {
     type O = tnconst![- env!(,,"BAD_SECRET");];
     type P = tnconst![- env!("", );];
     type Q = tnconst![- env!("", "");];
+    type R = tnconst![- env!("ENV_VAR");];
+    type S = tnconst![+ env!("NENV_VAR");];
+    type T = tnconst![ env!("NENV_VAR");];
     println!("test_tnconst Passed!");
 }
 
