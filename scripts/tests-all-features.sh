@@ -8,6 +8,8 @@ total_features=${#features[@]}
 
 # Export `ENV_VAR`
 export ENV_VAR="69"
+# Export `NENV_VAR`
+export NENV_VAR="-69"
 
 # Function to generate combinations of features
 generate_combinations() {
