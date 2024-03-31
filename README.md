@@ -12,7 +12,7 @@ Procedural macros that take a literal integer (or the result of an evaluation of
 
 ### It saves time.
 
-Assuming you want a type-level positive integer `84938493`, `tnconst![+84938493]` outputs directly `typenum::PInt<U84938493>` (by the way, `U84938493` does not exist in `typenum::consts`). The alternative is to type `PInt<Sum<Prod<Exp<, ...>, ...>, ...>, ...>` (which argubly takes a lot more time).
+Assuming you want a type-level positive integer `84938493`, `tnconst![+84938493]` outputs directly `typenum::PInt<U84938493>` (by the way, `U84938493` does not exist in `typenum::consts`). The alternative is to type `PInt<Sum<Prod<Exp<..., ...>, ...>, ...>, ...>` (which argubly takes a lot more time).
 
 Example:
 
@@ -55,7 +55,7 @@ assert_eq!(
 
 ### For conditional compilation.
 
-Suppose in different environments you want a different type-level integer, you can either use `#[cfg(production)] type NUMBER = U69;` or you can do the following:
+Suppose in different environments you want a different type-level integer, you can either use e.g. `#[cfg(production)] type NUMBER = U69;` or you can do the following:
 
 ```rust
 use typenum::{U69, assert_type_eq};
@@ -108,15 +108,20 @@ type E = pconst![env!("ENV_VAR");];
 assert_type_eq!(E, P69);
 ```
 
+# Roadmap
+
+- [ ] Feature gate evaluation of mathematical expressions and reading from environment variables.
+- [ ] Enable testing for Rust version 1.70.
+
 # Vendored Crates
 
 ## [`rsc`](https://github.com/fivemoreminix/rsc/commit/67c4ddffbe45a30de0fd696c569de885bfd4e9b4) version 3.0.0
 
-Reasons for vendoring `src`.
+Reasons for vendoring `rsc`.
 
-1. As of 28 March 2024, there is a version 3.0.0 of the crate on the GitHub [repository](https://github.com/fivemoreminix/rsc/commit/67c4ddffbe45a30de0fd696c569de885bfd4e9b4) but without corresponding crate on `crates.io`.
+1. As of 28 March 2024, there is a version 3.0.0 of the crate on the GitHub [repository](https://github.com/fivemoreminix/rsc/commit/67c4ddffbe45a30de0fd696c569de885bfd4e9b4) but without a corresponding crate on `crates.io`.
 2. Easier to implement `Num` for `isize` with vendoring.
-3. `typenum-needs a mathematical expression evaluator.
+3. `typenum-const needs a mathematical expression evaluator.
 4. Its [license](https://github.com/fivemoreminix/rsc/tree/67c4ddffbe45a30de0fd696c569de885bfd4e9b4?tab=readme-ov-file#license) allows for 'usage without attribution'. Anyway, `src/vendors/rsc/Cargo.toml.vendored` is the original `Cargo.toml` file found in the repository.
 5. Thanks to [Luke Wilson](https://github.com/fivemoreminix).
 

@@ -171,7 +171,7 @@ pub fn uconst(items: TokenStream) -> TokenStream {
 ///
 /// ## 3. Invoke by reading from an environment variable
 ///
-/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `uconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`, `"ENV_VAR"` is the key to read the value from and `"./.env.prod"` is the file path relative to [`CARGO_MANIFEST_DIR`].
+/// Note: `env!(...)` is a macro-like invocation. The first parameter is mandatory and is the key of the environment variable that `tnconst` will read. The second parameter is optional and is the file path of the `.env.*` file to read the environment variable from, e.g. `env!("ENV_VAR", "./.env.prod")`, `"ENV_VAR"` is the key to read the value from and `"./.env.prod"` is the file path relative to [`CARGO_MANIFEST_DIR`].
 ///
 /// ```rust
 /// use typenum::{U69, assert_type_eq};

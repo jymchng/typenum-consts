@@ -16,7 +16,7 @@ jobs:
         uses: dtolnay/rust-toolchain@1.70
 
       - name: Check tests
-        run: cargo test --all-features --no-run && cargo test
+        run: export ENV_VAR=69 && export NENV_VAR=-69 && cargo test --all-features --no-run && cargo test
 
   tests:
     runs-on: ubuntu-latest
