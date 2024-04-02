@@ -213,7 +213,6 @@ name = "typenum-consts"
 version = "0.1.2"
 dependencies = [
  "dotenv",
- "peekmore",
  "proc-macro2",
  "quote",
  "rsc",
