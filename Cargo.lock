@@ -79,6 +79,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "rsc"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6d4ca4a1caaa8b8e1209b7dde216556fc1e0bbf7343d04b0b8e2f4c7b42af1e9"
+dependencies = [
+ "peekmore",
+]
+
+[[package]]
 name = "ryu"
 version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -207,6 +216,7 @@ dependencies = [
  "peekmore",
  "proc-macro2",
  "quote",
+ "rsc",
  "syn",
  "trybuild",
  "typenum",

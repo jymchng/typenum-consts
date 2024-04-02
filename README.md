@@ -113,18 +113,6 @@ assert_type_eq!(E, P69);
 - [ ] Feature gate evaluation of mathematical expressions and reading from environment variables.
 - [ ] Enable testing for Rust version 1.70.
 
-# Vendored Crates
-
-## [`rsc`](https://github.com/fivemoreminix/rsc/commit/67c4ddffbe45a30de0fd696c569de885bfd4e9b4) version 3.0.0
-
-Reasons for vendoring `rsc`.
-
-1. As of 28 March 2024, there is a version 3.0.0 of the crate on the GitHub [repository](https://github.com/fivemoreminix/rsc/commit/67c4ddffbe45a30de0fd696c569de885bfd4e9b4) but without a corresponding crate on `crates.io`.
-2. Easier to implement `Num` for `isize` with vendoring.
-3. `typenum-const needs a mathematical expression evaluator.
-4. Its [license](https://github.com/fivemoreminix/rsc/tree/67c4ddffbe45a30de0fd696c569de885bfd4e9b4?tab=readme-ov-file#license) allows for 'usage without attribution'. Anyway, `src/vendors/rsc/Cargo.toml.vendored` is the original `Cargo.toml` file found in the repository.
-5. Thanks to [Luke Wilson](https://github.com/fivemoreminix).
-
 ## License
 
 Licensed under either of
