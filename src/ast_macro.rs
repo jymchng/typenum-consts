@@ -15,7 +15,7 @@ const CARGO_ENV_DIRS: [&str; 3] = [CARGO_BUILD_TARGET_DIR, CARGO_MANIFEST_DIR, C
 impl EnvArgs {
     fn check_string_cannot_be_empty(
         &self,
-        string: &String,
+        string: &str,
         error_span: Span,
         name: &str,
     ) -> Result<()> {
