@@ -102,9 +102,9 @@ impl AllowedMacros {
         let macro_ident = the_macro.path.require_ident()?;
         match macro_ident.to_string().as_str() {
             "env" => Ok(Self::Env(the_macro.parse_body::<EnvArgs>()?)),
-            other => Err(Error::new_spanned(
-                other,
-                "currently only support `env`-like macro invocation",
+            other => Err(Error::new(
+                macro_ident.span(),
+                format!("currently only support `env` macro-like invocation, it currently does not support `{}`", other),
             )),
         }
     }

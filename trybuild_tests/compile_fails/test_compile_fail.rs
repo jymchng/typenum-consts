@@ -41,6 +41,7 @@ fn test_tnconst() {
     type R = tnconst![- env!("ENV_VAR");];
     type S = tnconst![+ env!("NENV_VAR");];
     type T = tnconst![ env!("NENV_VAR");];
+    type U = tnconst![ ggenv!("NENV_VAR");];
     println!("test_tnconst Passed!");
 }
 

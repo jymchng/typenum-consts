@@ -7,8 +7,6 @@ use crate::ast::{
 };
 use crate::macros::debug_eprintln;
 use proc_macro::{self, TokenStream};
-#[allow(clippy::all)]
-use rsc;
 use tnconst_impl::{
     nconst_impl_lit_integer, nconst_impl_math_exprs, pconst_impl_lit_integer,
     pconst_impl_math_exprs, tnconst_impl_lit_integer, tnconst_impl_math_exprs,

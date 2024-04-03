@@ -1,7 +1,7 @@
 use crate::ast::{LitInteger, MathExprs};
-use crate::rsc::{parse, tokenize, Interpreter, Variant};
 use proc_macro2::Span;
 use quote::ToTokens;
+use rsc::{parse, tokenize, Interpreter, Variant};
 use syn::{spanned::Spanned, Error, LitInt, Result, Stmt};
 
 const ANS: &str = "ANS";
